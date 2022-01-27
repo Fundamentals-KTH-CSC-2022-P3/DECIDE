@@ -24,6 +24,7 @@ hs_err_pid*
 *~
 bazel-*
 .bazelrc
+.ijwb
 .idea
 # Eclipse
 .project
