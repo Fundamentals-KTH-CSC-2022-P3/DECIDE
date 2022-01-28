@@ -1,4 +1,4 @@
-package main.java.com.example;
+package com.example.greeter;
 
 public class Greeting {
     public static void sayHi() {
