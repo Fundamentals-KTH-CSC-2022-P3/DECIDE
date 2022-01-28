@@ -148,7 +148,7 @@ public class CMV {
     }
 
     /**
-     * Returns true if there exists at least one set of three data points separated by exactly C_PTS and D PTS
+     * Returns true if there exists at least one set of three data points separated by exactly C_PTS and D_PTS
      * consecutive intervening points, respectively, that form an angle such that:
      * angle < (PI−EPSILON)
      * or
@@ -156,7 +156,7 @@ public class CMV {
      * The second point of the set of three points is always the vertex of the angle. If either the first
      * point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
      * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
-     * 1 ≤ C_PTS, 1 ≤ D PTS
+     * 1 ≤ C_PTS, 1 ≤ D_PTS
      * C_PTS+D_PTS ≤ NUMPOINTS−3
      */
     private boolean lic9() {
@@ -165,9 +165,9 @@ public class CMV {
 
     /**
      * Returns true if there exists at least one set of three data points separated by exactly E_PTS and
-     * F PTS consecutive intervening points, respectively, that are the vertices of a triangle with area greater
+     * F_PTS consecutive intervening points, respectively, that are the vertices of a triangle with area greater
      * than AREA1. The condition is not met when NUMPOINTS < 5.
-     * 1 ≤ E_PTS, 1 ≤ F PTS
+     * 1 ≤ E_PTS, 1 ≤ F_PTS
      * E_PTS+F_PTS ≤ NUMPOINTS−3
      */
     private boolean lic10() {
@@ -198,7 +198,7 @@ public class CMV {
     }
 
     /**
-     * Returns true if there exists at least one set of three data points, separated by exactly A_PTS and B PTS
+     * Returns true if there exists at least one set of three data points, separated by exactly A_PTS and B_PTS
      * consecutive intervening points, respectively, that cannot be contained within or on a circle of
      * radius RADIUS1. In addition, there exists at least one set of three data points (which can be
      * the same or different from the three data points just mentioned) separated by exactly A_PTS
