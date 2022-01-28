@@ -1,0 +1,44 @@
+name: Build Application
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    name: Build App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Mount Bazel Cache
+        uses: actions/cache@v1
+        with:
+          path: "/home/runner/.cache/bazel"
+          key: bazel
+
+      - name: Install Bazelisk
+        run: |
+          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+      - name: Run the Testsuite
+        run: |
+          "${GITHUB_WORKSPACE}/bin/bazel" test --curses=no --color=no -- //src/test/java:testsuite
+
+      - name: Build application
+        run: |
+          "${GITHUB_WORKSPACE}/bin/bazel" build //src/main/java/com/example/cmdline:DECIDE
+
+      - name: Upload DECIDE
+        uses: actions/upload-artifact@v1
+        with:
+          name: DECIDE
+          path: bazel-bin/src/main/java/com/example/cmdline/DECIDE
+
+      - name: Upload DECIDE.jar
+        uses: actions/upload-artifact@v1
+        with:
+          name: DECIDE.jar
+          path: bazel-bin/src/main/java/com/example/cmdline/DECIDE.jar
