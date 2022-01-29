@@ -1,5 +1,8 @@
 package com.example;
 
+import com.example.core.CMV;
+import com.example.core.Parameters;
+import com.example.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +13,18 @@ public class CMVTest {
     @Test
     @DisplayName("LIC 0")
     void lic0Test() {
-        assertTrue(true);
+        // lic0 should be true if points contains two consecutive points in
+        // points, with a distance greater than LENGTH1 between them.
+        Parameters parameters = new Parameters();
+        parameters.LENGTH1 = 1;
+
+        // The distance between these points is sqrt(2) > LENGTH1.
+        Point[] points = new Point[2];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+        assertTrue(cmv.get(0));
     }
 
     @Test
