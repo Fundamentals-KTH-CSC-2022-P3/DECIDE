@@ -9,9 +9,11 @@ java_junit5_test(
     name = "testsuite",
     srcs = glob([
         "GreetingTest.java",
+        "CMVTest.java",
     ]),
     test_package = "com.example",
     deps = [
         "//src/main/java/com/example/greeter:greeter",
+	    "//src/main/java/com/example/core:core",
     ],
 )
