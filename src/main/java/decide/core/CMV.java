@@ -1,4 +1,4 @@
-package com.example.core;
+package decide.core;
 
 /**
  * Represents the Conditions Met Vector (CMV) that stores the result from each Launch Interceptor Condition (LIC).

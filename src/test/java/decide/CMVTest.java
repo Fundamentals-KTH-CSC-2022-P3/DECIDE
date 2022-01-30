@@ -1,8 +1,8 @@
-package com.example;
+package decide;
 
-import com.example.core.CMV;
-import com.example.core.Parameters;
-import com.example.core.Point;
+import decide.core.CMV;
+import decide.core.Parameters;
+import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

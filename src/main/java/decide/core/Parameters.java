@@ -1,4 +1,4 @@
-package com.example.core;
+package decide.core;
 
 /**
  * Represents a set of different parameters that are used when implementing each LIC.
