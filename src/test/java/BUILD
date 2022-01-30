@@ -10,8 +10,8 @@ java_junit5_test(
     srcs = glob([
         "CMVTest.java",
     ]),
-    test_package = "edu.dd2480.group14.decide",
+    test_package = "decide",
     deps = [
-	"//src/main/java/edu/dd2480/group14/decide/core:core",
+	"//src/main/java/decide/core:core",
     ],
 )

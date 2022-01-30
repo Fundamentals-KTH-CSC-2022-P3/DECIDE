@@ -1,4 +1,4 @@
-package edu.dd2480.group14.decide.program;
+package decide.program;
 
 public class DECIDE {
     public static void main(String args[]) {
