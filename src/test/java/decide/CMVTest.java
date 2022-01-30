@@ -6,8 +6,7 @@ import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CMVTest {
 
@@ -46,15 +45,51 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 1")
+    @DisplayName("LIC 1 Success")
     void lic1Test() {
         assertTrue(true);
     }
 
     @Test
-    @DisplayName("LIC 2")
-    void lic2Test() {
-        assertTrue(true);
+    @DisplayName("LIC 2 Success")
+    void lic2SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.EPSILON = Math.PI / 2;
+
+        // This creates a right-angled triangle with side lengths: 1, 1 and sqrt(2).
+        // The angles will be PI/2 (90 degrees), PI/4 (45 degrees) and PI/4 (45 degrees).
+        // So the angle with respect to the vertex should be PI/4 (45 degrees).
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // PI/4 is less than PI - EPSILON = PI/2, hence this must be true.
+        assertTrue(cmv.get(2));
+    }
+
+    @Test
+    @DisplayName("LIC 2 Fail")
+    void lic2FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.EPSILON = 4 * Math.PI / 5;
+
+        // This creates a right-angled triangle with side lengths: 1, 1 and sqrt(2).
+        // The angles will be PI/2 (90 degrees), PI/4 (45 degrees) and PI/4 (45 degrees).
+        // So the angle with respect to the vertex should be PI/4 (45 degrees).
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // PI/4 is not less than PI - EPSILON = PI/5
+        // Nor is PI/4 greater than PI + EPSILON = 9*PI/5
+        // Hence this must be false.
+        assertFalse(cmv.get(2));
     }
 
     @Test

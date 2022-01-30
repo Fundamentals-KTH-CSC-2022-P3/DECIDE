@@ -1,5 +1,7 @@
 package decide.core;
 
+import static java.lang.Math.PI;
+
 /**
  * Represents the Conditions Met Vector (CMV) that stores the result from each Launch Interceptor Condition (LIC).
  */
@@ -88,6 +90,23 @@ public class CMV {
      * (0 ≤ EPSILON < PI)
      */
     private boolean lic2() {
+        for (int i = 0; i < points.length - 2; i++) {
+            Point p1 = points[i];
+            Point vertex = points[i + 1];
+            Point p2 = points[i + 2];
+
+            // Cases where the angle is undefined.
+            if (p1.equals(vertex))
+                return false;
+            if (p2.equals(vertex))
+                return false;
+
+            double angle = Point.angle(p1, vertex, p2);
+
+            if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON)
+                return true;
+        }
+
         return false;
     }
 
