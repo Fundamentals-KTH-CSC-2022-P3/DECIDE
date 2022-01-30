@@ -25,20 +25,20 @@ jobs:
 
       - name: Run the Testsuite
         run: |
-          "${GITHUB_WORKSPACE}/bin/bazel" test --curses=no --color=no -- //src/test/java:testsuite
+          "${GITHUB_WORKSPACE}/bin/bazel" test --curses=no --color=no -- //src/test/java/decide:testsuite
 
       - name: Build application
         run: |
-          "${GITHUB_WORKSPACE}/bin/bazel" build //src/main/java/com/example/cmdline:DECIDE
+          "${GITHUB_WORKSPACE}/bin/bazel" build //src/main/java/decide/program:DECIDE
 
       - name: Upload DECIDE
         uses: actions/upload-artifact@v1
         with:
           name: DECIDE
-          path: bazel-bin/src/main/java/com/example/cmdline/DECIDE
+          path: bazel-bin/src/main/java/decide/program/DECIDE
 
       - name: Upload DECIDE.jar
         uses: actions/upload-artifact@v1
         with:
           name: DECIDE.jar
-          path: bazel-bin/src/main/java/com/example/cmdline/DECIDE.jar
+          path: bazel-bin/src/main/java/decide/program/DECIDE.jar
