@@ -6,7 +6,8 @@ import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class CMVTest {
 
@@ -45,7 +46,7 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 1 Success")
+    @DisplayName("LIC 1")
     void lic1Test() {
         assertTrue(true);
     }
