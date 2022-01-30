@@ -1,8 +1,8 @@
-package com.example;
+package edu.dd2480.group14.decide;
 
-import com.example.core.CMV;
-import com.example.core.Parameters;
-import com.example.core.Point;
+import edu.dd2480.group14.decide.core.CMV;
+import edu.dd2480.group14.decide.core.Parameters;
+import edu.dd2480.group14.decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

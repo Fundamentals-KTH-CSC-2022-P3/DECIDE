@@ -1,4 +1,4 @@
-package com.example.core;
+package edu.dd2480.group14.decide.core;
 
 /**
  * Represents the Conditions Met Vector (CMV) that stores the result from each Launch Interceptor Condition (LIC).

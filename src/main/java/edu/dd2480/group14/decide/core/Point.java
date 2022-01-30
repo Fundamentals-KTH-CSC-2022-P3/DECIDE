@@ -1,4 +1,4 @@
-package com.example.core;
+package edu.dd2480.group14.decide.core;
 
 /**
  * Represents a point in two-dimensional space.
