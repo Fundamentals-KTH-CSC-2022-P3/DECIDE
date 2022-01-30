@@ -60,6 +60,11 @@ public class CMV {
      * (0 ≤ LENGTH1)
      */
     private boolean lic0() {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].distance(points[i + 1]) > parameters.LENGTH1) {
+                return true;
+            }
+        }
         return false;
     }
 
