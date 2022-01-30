@@ -10,6 +10,7 @@ java_junit5_test(
     srcs = glob([
         "GreetingTest.java",
         "CMVTest.java",
+        "ParametersTest.java",
     ]),
     test_package = "com.example",
     deps = [
