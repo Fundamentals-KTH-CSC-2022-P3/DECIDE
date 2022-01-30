@@ -94,6 +94,37 @@ public class CMVTest {
     }
 
     @Test
+    @DisplayName("LIC 2 Undefined angle test")
+    void lic2UndefinedAngleTest() {
+        Parameters parameters = new Parameters();
+        parameters.EPSILON = 4 * Math.PI / 5;
+
+        // If points[0] == points[1] or points[1] == points[2]
+        // then the angle should be undefined and the LIC should return false.
+
+        // Lets test points[0] == points[1].
+        Point[] points = new Point[3];
+        points[0] = new Point(1, 1);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(0, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertFalse(cmv.get(2));
+
+        // Lets test points[1] == points[2].
+        points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 1);
+
+        cmv = new CMV(parameters, points);
+
+        assertFalse(cmv.get(2));
+    }
+
+
+    @Test
     @DisplayName("LIC 3")
     void lic3Test() {
         assertTrue(true);
