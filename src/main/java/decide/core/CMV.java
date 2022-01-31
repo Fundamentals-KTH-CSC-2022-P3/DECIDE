@@ -103,7 +103,7 @@ public class CMV {
             Point p3 = points[i + 2];
 
             // We need to ensure that the three vertices can form a triangle,
-            // then we cannot allow two points or more to coincide.
+            // hence we cannot allow two points or more to coincide.
             if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
                 continue;
 
