@@ -145,18 +145,16 @@ public class CMVTest {
         parameters.LENGTH1 = 1;
         parameters.K_PTS = 1;
 
-        // The distance between points[0] and points[1] is 2.
-        // In addition, the distance between points[1] and points[2] is also 2.
+        // The distance between points[0] and points[2] is 2.
         Point[] points = new Point[3];
         points[0] = new Point(0, 0);
-        points[1] = new Point(2, 0);
-        points[2] = new Point(4, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(2, 0);
 
         CMV cmv = new CMV(parameters, points);
 
         // There exists exactly one (K_PTS = 1) point between points[0] and points[2] namely points[1].
-        // The distance between points[0] and points[1] > 1 and the distance between points[1] and points[2] > 1,
-        // hence this must be true.
+        // The distance between points[0] and points[2] is greater than LENGTH1 = 1, hence this must be true.
         assertTrue(cmv.get(7));
     }
 
@@ -167,19 +165,16 @@ public class CMVTest {
         parameters.LENGTH1 = 2;
         parameters.K_PTS = 1;
 
-        // The distance between points[0] and points[1] is 2.
-        // In addition, the distance between points[1] and points[2] is also 2.
+        // The distance between points[0] and points[2] is 2.
         Point[] points = new Point[3];
         points[0] = new Point(0, 0);
-        points[1] = new Point(2, 0);
-        points[2] = new Point(4, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(2, 0);
 
         CMV cmv = new CMV(parameters, points);
 
         // There exists exactly one (K_PTS = 1) point between points[0] and points[2] namely points[1].
-        // The distance between points[0] and points[1] is not greater than 2
-        // (nor is the distance between points[1] and points[2] greater than 2),
-        // hence this must be false.
+        // The distance between points[0] and points[2] is not greater than LENGTH1 = 2, hence this must be false.
         assertFalse(cmv.get(7));
     }
 
