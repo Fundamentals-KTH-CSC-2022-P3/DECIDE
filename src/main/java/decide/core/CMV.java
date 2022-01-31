@@ -95,9 +95,9 @@ public class CMV {
             Point vertex = points[i + 1];
             Point p2 = points[i + 2];
 
-            // Cases where the angle is undefined.
+            // Special case where the angle is undefined.
             if (p1.equals(vertex) || p2.equals(vertex))
-                return false;
+                continue;
 
             double angle = Point.angle(p1, vertex, p2);
 
