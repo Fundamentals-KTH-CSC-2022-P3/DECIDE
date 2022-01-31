@@ -70,7 +70,7 @@ public class CMVTest {
         params.Q_PTS = 4;
         params.QUADS = 3;
 
-        // At least Q_PTS successive points in QUADS different quadrants should ensure success
+        // At least Q_PTS successive points in more than QUADS different quadrants should ensure success
         Point[] points = new Point[5];
         points[0] = new Point(0, 0);
         points[1] = new Point(1, 1);
@@ -90,7 +90,7 @@ public class CMVTest {
         params.Q_PTS = 4;
         params.QUADS = 2;
 
-        // Less than Q_PTS successive points in QUADS different quadrants should ensure failure
+        // If there aren't at least Q_PTS successive points in more than QUADS different quadrants, LIC 4 should be false
         Point[] points = new Point[5];
         points[0] = new Point(0, 0);
         points[1] = new Point(0, 0);
