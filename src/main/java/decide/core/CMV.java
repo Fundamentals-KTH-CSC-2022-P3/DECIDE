@@ -164,7 +164,7 @@ public class CMV {
             Point start = points[i];
             Point end = points[i + parameters.K_PTS + 1];
 
-            // Check if the start point and the end point has a distance greater than LENGTH1 between them.
+            // Check if the start point and the end point have a distance greater than LENGTH1 between them.
             if (start.distance(end) > parameters.LENGTH1)
                 return true;
         }
