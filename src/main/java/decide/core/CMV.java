@@ -114,7 +114,7 @@ public class CMV {
             double c = p2.distance(p3);
 
             // Heron's Formula to get the area:
-            double area = 1/4 * Math.sqrt((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
+            double area = 0.25 * Math.sqrt((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
 
             if (area > parameters.AREA1)
                 return true;
