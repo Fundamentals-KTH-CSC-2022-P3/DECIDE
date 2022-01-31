@@ -4,8 +4,9 @@ package decide.core;
  * Represents a point in two-dimensional space.
  */
 public class Point {
-    public double x;
-    public double y;
+    public final double x;
+    public final double y;
+    public final int quadrant;
 
     /**
      * Creates a new point.
@@ -15,6 +16,17 @@ public class Point {
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
+
+        if (x >= 0 && y >= 0) {
+            quadrant = 0;
+        } else if (x < 0 && y >= 0) {
+            quadrant = 1;
+        } else if (x < 0 && y < 0) {
+            quadrant = 2;
+        } else {
+            // x < 0 && y >= 0, but we need to end in a catch-all "else" for quadrant to be final.
+            quadrant = 3;
+        }
     }
 
     /**

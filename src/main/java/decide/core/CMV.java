@@ -1,5 +1,8 @@
 package decide.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents the Conditions Met Vector (CMV) that stores the result from each Launch Interceptor Condition (LIC).
  */
@@ -109,6 +112,16 @@ public class CMV {
      * (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      */
     private boolean lic4() {
+        for (int i = 0; i < points.length; i++) {
+            Set<Integer> quadsWithConsecutivePoints = new HashSet<>();
+            for (int j = 0; j < parameters.Q_PTS && j + i < points.length; j++) {
+                int quadrant = points[i+j].quadrant;
+                quadsWithConsecutivePoints.add(quadrant);
+            }
+            if (quadsWithConsecutivePoints.size() >= parameters.Q_PTS) {
+                return true;
+            }
+        }
         return false;
     }
 

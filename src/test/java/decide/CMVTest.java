@@ -64,9 +64,35 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 4")
-    void lic4Test() {
-        assertTrue(true);
+    @DisplayName("LIC 4 Success")
+    void lic4SuccessTest() {
+        Parameters params = new Parameters();
+        params.Q_PTS = 2;
+
+        // At least Q_PTS successive points in different quadrants should ensure success
+        Point[] points = new Point[2];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(-1, 0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertTrue(cmv.get(4));
+    }
+
+    @Test
+    @DisplayName("LIC 4 Fail")
+    void lic4FailTest() {
+        Parameters params = new Parameters();
+        params.Q_PTS = 2;
+
+        // Less than Q_PTS successive points in different quadrants should ensure failure
+        Point[] points = new Point[2];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(0, 0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(4));
     }
 
     @Test
