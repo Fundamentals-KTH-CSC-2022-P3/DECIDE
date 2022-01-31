@@ -67,13 +67,16 @@ public class CMVTest {
     @DisplayName("LIC 4 Success")
     void lic4SuccessTest() {
         Parameters params = new Parameters();
-        params.Q_PTS = 2;
-        params.QUADS = 1;
+        params.Q_PTS = 4;
+        params.QUADS = 3;
 
         // At least Q_PTS successive points in different quadrants should ensure success
-        Point[] points = new Point[2];
+        Point[] points = new Point[5];
         points[0] = new Point(0, 0);
-        points[1] = new Point(-1, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(-1, 1);
+        points[3] = new Point(1, -1);
+        points[4] = new Point(-1, -1);
 
         CMV cmv = new CMV(params, points);
 
@@ -84,12 +87,16 @@ public class CMVTest {
     @DisplayName("LIC 4 Fail")
     void lic4FailTest() {
         Parameters params = new Parameters();
-        params.Q_PTS = 2;
+        params.Q_PTS = 4;
+        params.QUADS = 2;
 
         // Less than Q_PTS successive points in different quadrants should ensure failure
-        Point[] points = new Point[2];
+        Point[] points = new Point[5];
         points[0] = new Point(0, 0);
         points[1] = new Point(0, 0);
+        points[2] = new Point(0, 0);
+        points[3] = new Point(0, 0);
+        points[4] = new Point(0, 0);
 
         CMV cmv = new CMV(params, points);
 
