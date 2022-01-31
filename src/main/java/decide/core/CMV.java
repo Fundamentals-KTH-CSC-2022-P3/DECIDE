@@ -95,7 +95,8 @@ public class CMV {
             Point vertex = points[i + 1];
             Point p2 = points[i + 2];
 
-            // Special case where the angle is undefined.
+            // A special case where the angle is undefined.
+            // These points are not allowed to satisfy the LIC, hence we should skip them.
             if (p1.equals(vertex) || p2.equals(vertex))
                 continue;
 
