@@ -6,8 +6,8 @@ import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CMVTest {
 
@@ -109,16 +109,6 @@ public class CMVTest {
         points[2] = new Point(0, 0);
 
         CMV cmv = new CMV(parameters, points);
-
-        assertFalse(cmv.get(2));
-
-        // Lets test points[1] == points[2].
-        points = new Point[3];
-        points[0] = new Point(0, 0);
-        points[1] = new Point(1, 1);
-        points[2] = new Point(1, 1);
-
-        cmv = new CMV(parameters, points);
 
         assertFalse(cmv.get(2));
     }

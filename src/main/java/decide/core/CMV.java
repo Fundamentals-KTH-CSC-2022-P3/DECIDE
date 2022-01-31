@@ -100,7 +100,7 @@ public class CMV {
             if (p1.equals(vertex) || p2.equals(vertex))
                 continue;
 
-            double angle = Point.angle(p1, vertex, p2);
+            double angle = Point.vertexAngle(p1, vertex, p2);
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON)
                 return true;

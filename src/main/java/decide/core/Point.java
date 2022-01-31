@@ -74,7 +74,7 @@ public class Point {
      * @param p2     an endpoint to create a line (or side) between itself and the vertex.
      * @return the angle between the sides p1-vertex and p2-vertex.
      */
-    public static double angle(Point p1, Point vertex, Point p2) {
+    public static double vertexAngle(Point p1, Point vertex, Point p2) {
         double a = p1.distance(vertex);
         double b = p2.distance(vertex);
         double c = p1.distance(p2);
