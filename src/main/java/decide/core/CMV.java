@@ -102,11 +102,17 @@ public class CMV {
             Point p2 = points[i + 1];
             Point p3 = points[i + 2];
 
-            Triangle triangle = new Triangle(p1, p2, p3);
+            // We need to ensure that the three vertices can form a triangle,
+            // then we cannot allow two points or more to coincide.
+            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
+                continue;
 
-            if (triangle.area() > parameters.AREA1)
-                return true;
+            // Heron's Formula to calculate the area of a triangle.
+            // This formula only requires the side lengths of the triangle which we can easily retrieve.
+
         }
+
+        return false;
     }
 
     /**
