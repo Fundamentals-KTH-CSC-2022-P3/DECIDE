@@ -97,7 +97,16 @@ public class CMV {
      * (0 ≤ AREA1)
      */
     private boolean lic3() {
-        return false;
+        for (int i = 0; i < points.length - 2; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + 1];
+            Point p3 = points[i + 2];
+
+            Triangle triangle = new Triangle(p1, p2, p3);
+
+            if (triangle.area() > parameters.AREA1)
+                return true;
+        }
     }
 
     /**
