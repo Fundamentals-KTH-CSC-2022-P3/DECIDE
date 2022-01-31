@@ -68,6 +68,7 @@ public class CMVTest {
     void lic4SuccessTest() {
         Parameters params = new Parameters();
         params.Q_PTS = 2;
+        params.QUADS = 1;
 
         // At least Q_PTS successive points in different quadrants should ensure success
         Point[] points = new Point[2];

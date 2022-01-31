@@ -6,7 +6,10 @@ package decide.core;
 public class Point {
     public final double x;
     public final double y;
-    public final int quadrant;
+
+    public enum Quadrant {
+        I, II, III, IV
+    }
 
     /**
      * Creates a new point.
@@ -16,16 +19,20 @@ public class Point {
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
+    }
 
+    public Quadrant getQuadrant() {
         if (x >= 0 && y >= 0) {
-            quadrant = 0;
+            return Quadrant.I;
         } else if (x < 0 && y >= 0) {
-            quadrant = 1;
-        } else if (x < 0 && y < 0) {
-            quadrant = 2;
+            return Quadrant.II;
+        } else if (x <= 0 && y < 0) {
+            return Quadrant.III;
+        } else if (x > 0 && y < 0) {
+            return Quadrant.IV;
         } else {
-            // x < 0 && y >= 0, but we need to end in a catch-all "else" for quadrant to be final.
-            quadrant = 3;
+            // Should be unreachable
+            throw new ArithmeticException("Non-planar point");
         }
     }
 

@@ -112,13 +112,15 @@ public class CMV {
      * (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      */
     private boolean lic4() {
-        for (int i = 0; i < points.length; i++) {
-            Set<Integer> quadsWithConsecutivePoints = new HashSet<>();
-            for (int j = 0; j < parameters.Q_PTS && j + i < points.length; j++) {
-                int quadrant = points[i+j].quadrant;
+        for (int i = 0; i < points.length - parameters.Q_PTS; i++) {
+            Set<Point.Quadrant> quadsWithConsecutivePoints = new HashSet<>();
+            for (int j = i; j < i + parameters.Q_PTS; j++) {
+                Point.Quadrant quadrant = points[i+j].getQuadrant();
                 quadsWithConsecutivePoints.add(quadrant);
+                //if (i+j == points.length - 1)
+                //    throw new RuntimeException();
             }
-            if (quadsWithConsecutivePoints.size() >= parameters.Q_PTS) {
+            if (quadsWithConsecutivePoints.size() > parameters.QUADS) {
                 return true;
             }
         }
