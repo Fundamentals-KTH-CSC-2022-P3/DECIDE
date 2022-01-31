@@ -160,25 +160,12 @@ public class CMV {
             return false;
 
         for (int i = 0; i < points.length - parameters.K_PTS - 1; i++) {
-            // Our set of two data points that we shall check the consecutive intervening points for.
             // The consecutive intervening points are those points that are between the start point and the end point in the array.
             Point start = points[i];
             Point end = points[i + parameters.K_PTS + 1];
 
-            // Did we find exactly K_PTS consecutive intervening points with a distance > LENGTH1 from the start point and from the end point?
-            boolean found = true;
-
-            // Iterate through the consecutive intervening points (points between start and end).
-            for (int j = i + 1; j <= i + parameters.K_PTS; j++) {
-                // If one of these consecutive intervening points has a distance of <= LENGTH1 to the start point or the end point,
-                // then we have not found what we are looking for.
-                if (start.distance(points[j]) <= parameters.LENGTH1 || end.distance(points[j]) <= parameters.LENGTH1) {
-                    found = false;
-                    break;
-                }
-            }
-
-            if (found)
+            // Check if the start point and the end point has a distance > LENGTH1 between them.
+            if (start.distance(end) > parameters.LENGTH1)
                 return true;
         }
 
