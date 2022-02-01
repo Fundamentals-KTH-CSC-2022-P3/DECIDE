@@ -148,6 +148,11 @@ public class CMV {
      * that X[j] - X[i] < 0. (where i = j-1)
      */
     private boolean lic5() {
+        for (int i = 0; i < points.length - 1; i++){
+            if ((points[i+1].x - points[i].x) < 0){
+                return true;
+            }
+        }
         return false;
     }
 

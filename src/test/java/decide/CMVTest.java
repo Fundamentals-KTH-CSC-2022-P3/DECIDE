@@ -162,9 +162,31 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 5")
-    void lic5Test() {
-        assertTrue(true);
+    @DisplayName("LIC 5 Success")
+    void lic5SuccessTest() {
+        Parameters params = new Parameters();
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(3, 0);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(params, points);
+        // the consecutive data points (points[2].x - points[1].x) < 0, LIC5 should return true
+        assertTrue(cmv.get(5));
+    }
+
+    @Test
+    @DisplayName("LIC 5 Fail")
+    void lic5FailTest() {
+        Parameters params = new Parameters();
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(2, 0);
+
+        CMV cmv = new CMV(params, points);
+        // there are no consecutive data points where (points[i+1].x - points[i].x) < 0, LIC5 should return false
+        assertFalse(cmv.get(5));
     }
 
     @Test
