@@ -196,6 +196,15 @@ public class CMV {
      * C_PTS+D_PTS ≤ NUMPOINTS−3
      */
     private boolean lic9() {
+        for (int i = 0; i < points.length - parameters.C_PTS - parameters.D_PTS - 2; i++) {
+            double angle = Point.vertexAngle(points[i],
+                    points[i+parameters.C_PTS+1],
+                    points[i+parameters.C_PTS+parameters.D_PTS+2]);
+
+            if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON) {
+                return true;
+            }
+        }
         return false;
     }
 
