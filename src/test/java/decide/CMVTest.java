@@ -330,9 +330,101 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 13")
-    void lic13Test() {
-        assertTrue(true);
+    @DisplayName("LIC 13 Should be false if RADIUS2 is less than or equal to 2")
+    void testLIC13IsFalseWhenRADIUS2IsLessThanOrEqualToZero() {
+        Parameters params = new Parameters();
+        params.RADIUS2 = -1;
+
+        Point[] points = createArrayWithPointsAtOrigo(10);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(13));
+    }
+
+    @Test
+    @DisplayName("LIC 13 Should be false if NUMPOINTS is less than 5")
+    void testLIC13IsFalseWhenNUMPOINTSIsLessThanFive() {
+        Parameters params = new Parameters();
+
+        Point[] points = createArrayWithPointsAtOrigo(4);
+        CMV cmv1 = new CMV(params, points);
+
+        assertFalse(cmv1.get(13));
+    }
+
+    @Test
+    @DisplayName("LIC 13 Should be false when there exists a set of points that CAN be contained within a circle of RADIUS1")
+    void testLIC13IsFalseWhenSetOfPointsCanBeContainedInCircleWithRADIUS1() {
+        CMV cmv;
+        Parameters params = new Parameters();
+        params.A_PTS = 2;
+        params.B_PTS = 3;
+
+        // Make sure default case is that all the points are far away (a bunch of points at origo would poison this test)
+        Point[] points = createArrayWithPointsFarAwayFromEachOther(10);
+
+        double huge = points[points.length - 1].x;
+        params.RADIUS2 = huge * huge; // (ensure this is huge not to poison test)
+
+        // In the following grid the points can be contained within a circle of radius 2
+        // but not a circle with radius 1. Since the distance between b and c is 2
+        // 5     c
+        // 4
+        // 3   a b
+        // 2
+        // 1 2 3 4 5 6
+        Point a = new Point(3.0, 3.0);
+        Point b = new Point(4.0, 3.0);
+        Point c = new Point(4.0, 5.0);
+
+        points[0] = a;
+        points[params.A_PTS + 1] = b;
+        points[params.A_PTS + 1 + params.B_PTS + 1] = c;
+
+        params.RADIUS1 = 1;
+        cmv = new CMV(params, points);
+        assertTrue(cmv.get(13));
+
+        params.RADIUS1 = 2;
+        cmv = new CMV(params, points);
+        assertFalse(cmv.get(13));
+    }
+
+    @Test
+    @DisplayName("LIC 13 Should be false when there exists a set of points that CANNOT be contained within a circle of RADIUS2")
+    void testLIC13IsFalseWhenSetOfPointsCannotBeContainedInCircleWithRADIUS2() {
+        CMV cmv;
+        Parameters params = new Parameters();
+        params.A_PTS = 2;
+        params.B_PTS = 3;
+        params.RADIUS1 = 1; // Ensures the test won't trigger a false positive
+
+        // Make sure default case is that all the points are far away (a bunch of points at origo would poison this test)
+        Point[] points = createArrayWithPointsFarAwayFromEachOther(10);
+
+        // In the following grid the points can be contained within a circle of radius 2
+        // but not a circle with radius 1. Since the distance between b and c is 2
+        // 5     c
+        // 4
+        // 3   a b
+        // 2
+        // 1 2 3 4 5 6
+        Point a = new Point(3.0, 3.0);
+        Point b = new Point(4.0, 3.0);
+        Point c = new Point(4.0, 5.0);
+
+        points[0] = a;
+        points[params.A_PTS + 1] = b;
+        points[params.A_PTS + 1 + params.B_PTS + 1] = c;
+
+        params.RADIUS2 = 1;
+        cmv = new CMV(params, points);
+        assertFalse(cmv.get(13));
+
+        params.RADIUS2 = 2;
+        cmv = new CMV(params, points);
+        assertTrue(cmv.get(13));
     }
 
     @Test
