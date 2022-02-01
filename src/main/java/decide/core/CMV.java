@@ -233,6 +233,18 @@ public class CMV {
      * 1 ≤ G_PTS ≤ NUMPOINTS−2
      */
     private boolean lic11() {
+        if (points.length < 3)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.G_PTS - 1; i++) {
+            // The consecutive intervening points are the points with indices in the open interval (i, j).
+            int j = i + parameters.G_PTS + 1;
+
+            // Check if X[j] - X[i] < 0.
+            if (points[j].x - points[i].x < 0)
+                return true;
+        }
+
         return false;
     }
 

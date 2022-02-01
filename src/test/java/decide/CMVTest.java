@@ -244,9 +244,43 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 11")
-    void lic11Test() {
-        assertTrue(true);
+    @DisplayName("LIC 11 Success")
+    void lic11SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.G_PTS = 2;
+
+        // points[3].x - points[0].x = -2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(-2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly G_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // points[3].x - points[0].x = -2 which is less than 0, hence this must be true.
+        assertTrue(cmv.get(11));
+    }
+
+    @Test
+    @DisplayName("LIC 11 Fail")
+    void lic11FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.G_PTS = 2;
+
+        // points[3].x - points[0].x = 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly G_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // points[3].x - points[0].x = 2 which is not less than 0, hence this must be false.
+        assertFalse(cmv.get(11));
     }
 
     @Test
