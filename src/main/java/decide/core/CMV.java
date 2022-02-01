@@ -21,8 +21,9 @@ public class CMV {
 
     /**
      * Creates a new Conditions Met Vector (CMV) and computes all the Launch Interceptor Conditions (LICs).
+     *
      * @param parameters the parameter values that will be used when computing the LICs.
-     * @param points a vector of 2D points.
+     * @param points     a vector of 2D points.
      */
     public CMV(Parameters parameters, Point[] points) {
         this.parameters = parameters;
@@ -32,6 +33,7 @@ public class CMV {
 
     /**
      * Returns the ith element of the CMV vector.
+     *
      * @return ith element of the CMV vector.
      */
     public boolean get(int i) {
@@ -227,8 +229,8 @@ public class CMV {
     private boolean lic9() {
         for (int i = 0; i < points.length - parameters.C_PTS - parameters.D_PTS - 2; i++) {
             double angle = Point.vertexAngle(points[i],
-                    points[i+parameters.C_PTS+1],
-                    points[i+parameters.C_PTS+parameters.D_PTS+2]);
+                    points[i + parameters.C_PTS + 1],
+                    points[i + parameters.C_PTS + parameters.D_PTS + 2]);
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON) {
                 return true;
@@ -296,6 +298,30 @@ public class CMV {
      * 0 ≤ AREA2
      */
     private boolean lic14() {
+        if (points.length < 5)
+            return false;
+
+        boolean hasTriangleAreaLargerThanAREA1 = false;
+        boolean hasTriangleAreaLessThanAREA2 = false;
+
+        for (int i = 0; i < points.length - parameters.E_PTS - parameters.F_PTS - 2; i++) {
+            double area = Triangle.area(points[i],
+                    points[i + parameters.E_PTS + 1],
+                    points[i + parameters.E_PTS + parameters.F_PTS + 2]);
+
+            if (area > parameters.AREA1) {
+                hasTriangleAreaLargerThanAREA1 = true;
+            }
+
+            if (area < parameters.AREA2) {
+                hasTriangleAreaLessThanAREA2 = true;
+            }
+
+            if (hasTriangleAreaLargerThanAREA1 && hasTriangleAreaLessThanAREA2) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
