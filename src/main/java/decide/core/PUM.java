@@ -28,6 +28,15 @@ public class PUM {
         return pum[i][j];
     }
 
+    /**
+     * Get the whole row of PUM[i].
+     * @param i the row.
+     * @return a boolean array.
+     */
+    public boolean[] get(int i) {
+        return pum[i];
+    }
+
     // Computes the PUM according to the rules specified in section 2.2
     private void computePUM(LCM lcm, CMV cmv) {
         for (int i = 0; i < PUM_SIZE; i++) {
