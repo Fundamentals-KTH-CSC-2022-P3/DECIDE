@@ -1,5 +1,8 @@
 package decide.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static java.lang.Math.PI;
 
 /**
@@ -127,6 +130,16 @@ public class CMV {
      * (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      */
     private boolean lic4() {
+        for (int i = 0; i <= points.length - parameters.Q_PTS; i++) {
+            Set<Point.Quadrant> quadsWithConsecutivePoints = new HashSet<>();
+            for (int j = i; j < i + parameters.Q_PTS; j++) {
+                Point.Quadrant quadrant = points[j].getQuadrant();
+                quadsWithConsecutivePoints.add(quadrant);
+            }
+            if (quadsWithConsecutivePoints.size() > parameters.QUADS) {
+                return true;
+            }
+        }
         return false;
     }
 
