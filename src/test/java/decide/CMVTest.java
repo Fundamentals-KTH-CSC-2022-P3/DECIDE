@@ -6,6 +6,8 @@ import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -113,11 +115,57 @@ public class CMVTest {
         assertFalse(cmv.get(2));
     }
 
+    @DisplayName("LIC 3 Success")
+    void lic3SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 0.45;
+
+        // This creates a right-angled triangle with the area 1/2 = 0.5.
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // 0.5 > 0.45, hence this must be true.
+        assertTrue(cmv.get(3));
+    }
 
     @Test
-    @DisplayName("LIC 3")
-    void lic3Test() {
-        assertTrue(true);
+    @DisplayName("LIC 3 Fail")
+    void lic3FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 0.55;
+
+        // This creates a right-angled triangle with the area 1/2 = 0.5.
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // 0.5 is not greater than 0.55, hence this must be false.
+        assertFalse(cmv.get(3));
+    }
+
+    @Test
+    @DisplayName("LIC 3 Illegal triangle")
+    void lic3IllegalTriangleTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 1;
+
+        // These points cannot create a valid triangle because points[1] == points[2].
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // Must be false because the points cannot create a triangle.
+        assertFalse(cmv.get(3));
     }
 
     @Test
@@ -196,9 +244,45 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 7")
-    void lic7Test() {
-        assertTrue(true);
+    @DisplayName("LIC 7 Success")
+    void lic7SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.LENGTH1 = 1;
+        parameters.K_PTS = 2;
+
+        // The distance between points[0] and points[3] is 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly K_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // The distance between points[0] and points[3] is greater than LENGTH1 = 1, hence this must be true.
+        assertTrue(cmv.get(7));
+    }
+
+    @Test
+    @DisplayName("LIC 7 Fail")
+    void lic7FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.LENGTH1 = 2;
+        parameters.K_PTS = 2;
+
+        // The distance between points[0] and points[3] is 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly K_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // The distance between points[0] and points[3] is not greater than LENGTH1 = 2, hence this must be false.
+        assertFalse(cmv.get(7));
     }
 
     @Test
@@ -208,9 +292,67 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 9")
-    void lic9Test() {
-        assertTrue(true);
+    @DisplayName("LIC 9 Success")
+    void lic9SuccessTest() {
+        Parameters params = new Parameters();
+        params.EPSILON = Math.PI/4;
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        Point[] points = new Point[10];
+        // Fill with spacer points
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // The set of three points forming the angle.
+        // The middle one is the vertex. They form a right angle, i.e. PI/2 rad.
+        // Since PI/2 < PI - PI/4, EPSILON being PI/4, this succeeds.
+        points[0] = new Point(1.0, 2.0);
+        points[params.C_PTS + 1] = new Point(1.0, 1.0);
+        points[params.C_PTS + params.D_PTS + 2] = new Point(2.0, 1.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertTrue(cmv.get(9));
+    }
+
+    @Test
+    @DisplayName("LIC 9 Fail")
+    void lic9FailTest() {
+        Parameters params = new Parameters();
+        params.EPSILON = 3*Math.PI/4;
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        Point[] points = new Point[10];
+        // Fill with spacer points
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // The set of three points forming the angle.
+        // The middle one is the vertex. They form a right angle, i.e. PI/2 rad.
+        // Since neither PI/2 < PI - 3*PI/4 nor PI/2 > PI + 3*PI/4, EPSILON being PI/4, this fails.
+        points[0] = new Point(1.0, 2.0);
+        points[params.C_PTS + 1] = new Point(1.0, 1.0);
+        points[params.C_PTS + params.D_PTS + 2] = new Point(2.0, 1.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(9));
+    }
+
+    @Test
+    @DisplayName("LIC 9 Invalid input")
+    void lic9InvalidInputTest() {
+        Parameters params = new Parameters();
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        // This violates the condition that C_PTS + D_PTS <= NUMPOINTS - 3
+        Point[] points = new Point[5];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(9));
     }
 
     @Test
