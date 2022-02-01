@@ -1,5 +1,10 @@
 package decide.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.lang.Math.PI;
+
 /**
  * Represents the Conditions Met Vector (CMV) that stores the result from each Launch Interceptor Condition (LIC).
  */
@@ -88,6 +93,22 @@ public class CMV {
      * (0 ≤ EPSILON < PI)
      */
     private boolean lic2() {
+        for (int i = 0; i < points.length - 2; i++) {
+            Point p1 = points[i];
+            Point vertex = points[i + 1];
+            Point p2 = points[i + 2];
+
+            // A special case where the angle is undefined.
+            // These points are not allowed to satisfy the LIC, hence we should skip them.
+            if (p1.equals(vertex) || p2.equals(vertex))
+                continue;
+
+            double angle = Point.vertexAngle(p1, vertex, p2);
+
+            if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON)
+                return true;
+        }
+
         return false;
     }
 
@@ -109,6 +130,16 @@ public class CMV {
      * (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      */
     private boolean lic4() {
+        for (int i = 0; i <= points.length - parameters.Q_PTS; i++) {
+            Set<Point.Quadrant> quadsWithConsecutivePoints = new HashSet<>();
+            for (int j = i; j < i + parameters.Q_PTS; j++) {
+                Point.Quadrant quadrant = points[j].getQuadrant();
+                quadsWithConsecutivePoints.add(quadrant);
+            }
+            if (quadsWithConsecutivePoints.size() > parameters.QUADS) {
+                return true;
+            }
+        }
         return false;
     }
 
