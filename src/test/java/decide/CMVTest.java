@@ -309,10 +309,57 @@ public class CMVTest {
         assertTrue(true);
     }
 
+    /**
+     * Test that LIC 12 evaluates to true when there are two points with exactly K_PTS points between them spaced apart
+     * by a distance greater than LENGTH1, as well as two points with exactly K_PTS between them closer than LENGTH2.
+     */
     @Test
-    @DisplayName("LIC 12")
-    void lic12Test() {
-        assertTrue(true);
+    @DisplayName("LIC 12 Success")
+    void lic12SuccessTest() {
+        Parameters params = new Parameters();
+        params.K_PTS = 2;
+        params.LENGTH1 = 5.0;
+        params.LENGTH2 = 3.0;
+
+        Point[] points = new Point[5];
+
+        // points[0] and points[3] are further apart than LENGTH1
+        points[0] = new Point(0.0,0.0);
+        points[3] = new Point(6.0, 0.0);
+
+        // points[1] and points[4] are closer than LENGTH2
+        points[1] = new Point(0.0, 1.0);
+        points[4] = new Point(0.0, 3.0);
+
+        // dummy point to fill the array
+        points[2] = new Point(0.0, 0.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertTrue(cmv.get(12));
+    }
+
+    /**
+     * Test that LIC 12 evaluates to false when there are not two points with exactly K_PTS points between them spaced
+     * apart by a distance greater than LENGTH1, nor two points with exactly K_PTS between them closer than LENGTH2.
+     */
+    @Test
+    @DisplayName("LIC 12 Fail")
+    void lic12FailTest() {
+        Parameters params = new Parameters();
+        params.K_PTS = 1;
+        params.LENGTH1 = 5.0;
+        params.LENGTH2 = 1.0;
+
+        Point[] points = new Point[4];
+        points[0] = new Point(0.0, 0.0);
+        points[1] = new Point(100.0, 100.0);
+        points[2] = new Point(2.0, 2.0);
+        points[3] = new Point(102.0, 102.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(12));
     }
 
     @Test
