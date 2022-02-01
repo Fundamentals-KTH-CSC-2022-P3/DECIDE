@@ -125,14 +125,7 @@ public class CMV {
             if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
                 continue;
 
-            // We will use Heron's formula to calculate the area of the triangle.
-            // This formula only requires the side lengths of the triangle which we can easily retrieve:
-            double a = p1.distance(p2);
-            double b = p1.distance(p3);
-            double c = p2.distance(p3);
-
-            // Heron's Formula to get the area:
-            double area = 0.25 * Math.sqrt((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
+            double area = Triangle.area(p1, p2, p3);
 
             if (area > parameters.AREA1)
                 return true;
