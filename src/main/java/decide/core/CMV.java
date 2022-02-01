@@ -184,7 +184,20 @@ public class CMV {
      * that are a distance greater than the length, LENGTH1, apart. The condition is not met when NUMPOINTS < 3.
      * 1 ≤ K_PTS ≤ (NUMPOINTS−2)
      */
-    private boolean lic7() {
+    public boolean lic7() {
+        if (points.length < 3)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.K_PTS - 1; i++) {
+            // The consecutive intervening points are those points that are between the start point and the end point in the array.
+            Point start = points[i];
+            Point end = points[i + parameters.K_PTS + 1];
+
+            // Check if the start point and the end point have a distance greater than LENGTH1 between them.
+            if (start.distance(end) > parameters.LENGTH1)
+                return true;
+        }
+
         return false;
     }
 

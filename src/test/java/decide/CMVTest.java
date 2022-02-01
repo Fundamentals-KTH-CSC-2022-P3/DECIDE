@@ -222,9 +222,45 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 7")
-    void lic7Test() {
-        assertTrue(true);
+    @DisplayName("LIC 7 Success")
+    void lic7SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.LENGTH1 = 1;
+        parameters.K_PTS = 2;
+
+        // The distance between points[0] and points[3] is 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly K_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // The distance between points[0] and points[3] is greater than LENGTH1 = 1, hence this must be true.
+        assertTrue(cmv.get(7));
+    }
+
+    @Test
+    @DisplayName("LIC 7 Fail")
+    void lic7FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.LENGTH1 = 2;
+        parameters.K_PTS = 2;
+
+        // The distance between points[0] and points[3] is 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly K_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // The distance between points[0] and points[3] is not greater than LENGTH1 = 2, hence this must be false.
+        assertFalse(cmv.get(7));
     }
 
     @Test
