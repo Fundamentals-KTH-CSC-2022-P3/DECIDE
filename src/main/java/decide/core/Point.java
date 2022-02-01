@@ -50,6 +50,20 @@ public class Point {
     }
 
     /**
+     * Checks wether a point p fits within a circle with a given radius and
+     * the origio in this point.
+     *
+     * If the point p is on the circle it is considered within the circle.
+     *
+     * @param p         Point to check
+     * @param radius    Radius of the circle
+     * @return
+     */
+    public boolean pointFitsInCircleWithRadius(Point p, double radius) {
+        return distance(p) <= radius;
+    }
+
+    /**
      * Compares this object to another object to check if they are equal.
      * Two {@code Point} objects are equal if they have the same x-value and y-value.
      *
