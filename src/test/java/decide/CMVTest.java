@@ -113,11 +113,57 @@ public class CMVTest {
         assertFalse(cmv.get(2));
     }
 
+    @DisplayName("LIC 3 Success")
+    void lic3SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 0.45;
+
+        // This creates a right-angled triangle with the area 1/2 = 0.5.
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // 0.5 > 0.45, hence this must be true.
+        assertTrue(cmv.get(3));
+    }
 
     @Test
-    @DisplayName("LIC 3")
-    void lic3Test() {
-        assertTrue(true);
+    @DisplayName("LIC 3 Fail")
+    void lic3FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 0.55;
+
+        // This creates a right-angled triangle with the area 1/2 = 0.5.
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // 0.5 is not greater than 0.55, hence this must be false.
+        assertFalse(cmv.get(3));
+    }
+
+    @Test
+    @DisplayName("LIC 3 Illegal triangle")
+    void lic3IllegalTriangleTest() {
+        Parameters parameters = new Parameters();
+        parameters.AREA1 = 1;
+
+        // These points cannot create a valid triangle because points[1] == points[2].
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // Must be false because the points cannot create a triangle.
+        assertFalse(cmv.get(3));
     }
 
     @Test
