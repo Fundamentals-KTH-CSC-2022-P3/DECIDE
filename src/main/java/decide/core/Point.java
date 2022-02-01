@@ -102,4 +102,8 @@ public class Point {
 
         return angle;
     }
+
+    public static double distanceBetween(Point startPoint, Point endPoint){
+        return Math.sqrt(Math.pow(startPoint.x - endPoint.x, 2) + Math.pow(startPoint.y - endPoint.y, 2));
+    }
 }

@@ -48,9 +48,34 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 1")
-    void lic1Test() {
-        assertTrue(true);
+    @DisplayName("LIC 1 Success")
+    void lic1SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.RADIUS1 = 1;
+
+
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(3, 2);
+
+        CMV cmv = new CMV(parameters, points);
+        assertTrue(cmv.get(1));
+    }
+
+    @Test
+    @DisplayName("LIC 1 Fail")
+    void lic1FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.RADIUS1 = 1;
+
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(0.5, 0.5);
+        points[2] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+        assertFalse(cmv.get(1));
     }
 
     @Test

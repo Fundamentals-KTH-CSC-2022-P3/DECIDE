@@ -2,6 +2,7 @@ package decide.core;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.lang.Math.PI;
 
@@ -79,6 +80,35 @@ public class CMV {
      * (0 ≤ RADIUS1)
      */
     private boolean lic1() {
+        if(points.length < 3){
+            return false;
+        }
+        for(int i = 0; i < points.length-2; i++){
+            // Translate the points to understandable mathematical variables
+            Point x = points[i];
+            Point y = points[i+1];
+            Point z = points[i+2];
+
+            // variables for the distance between our points
+            double distanceBetweenXAndY = Point.distanceBetween(x, y);
+            double distanceBetweenYAndZ = Point.distanceBetween(y, z);
+            double distanceBetweenZAndX = Point.distanceBetween(z, x);
+
+            Boolean isContainedInsideCircle = Stream.of(
+                    // In the first case we set X to be the middle of the circle of radius RADIUS1
+                    distanceBetweenXAndY <= parameters.RADIUS1 &&
+                        distanceBetweenZAndX <= parameters.RADIUS1,
+                    // In the second case we set point Y to be the middle of the circle
+                    distanceBetweenXAndY <= parameters.RADIUS1 &&
+                        distanceBetweenYAndZ <= parameters.RADIUS1,
+                    // In the first case we set point Z to be the middle of the circle
+                    distanceBetweenYAndZ <= parameters.RADIUS1 &&
+                            distanceBetweenZAndX <= parameters.RADIUS1
+            ).reduce((a, b) -> a || b).orElse(false);
+            if(!isContainedInsideCircle) {
+                return true;
+            }
+        }
         return false;
     }
 
