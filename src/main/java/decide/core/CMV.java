@@ -21,9 +21,8 @@ public class CMV {
 
     /**
      * Creates a new Conditions Met Vector (CMV) and computes all the Launch Interceptor Conditions (LICs).
-     *
      * @param parameters the parameter values that will be used when computing the LICs.
-     * @param points     a vector of 2D points.
+     * @param points a vector of 2D points.
      */
     public CMV(Parameters parameters, Point[] points) {
         this.parameters = parameters;
@@ -33,7 +32,6 @@ public class CMV {
 
     /**
      * Returns the ith element of the CMV vector.
-     *
      * @return ith element of the CMV vector.
      */
     public boolean get(int i) {
