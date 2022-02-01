@@ -67,7 +67,7 @@ public class CMV {
      */
     private boolean lic0() {
         for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].distance(points[i + 1]) > parameters.LENGTH1) {
+            if (Point.euclidianDistanceBetween(points[i], points[i + 1]) > parameters.LENGTH1) {
                 return true;
             }
         }
@@ -90,9 +90,9 @@ public class CMV {
             Point z = points[i+2];
 
             // variables for the distance between our points
-            double distanceBetweenXAndY = Point.distanceBetween(x, y);
-            double distanceBetweenYAndZ = Point.distanceBetween(y, z);
-            double distanceBetweenZAndX = Point.distanceBetween(z, x);
+            double distanceBetweenXAndY = Point.euclidianDistanceBetween(x, y);
+            double distanceBetweenYAndZ = Point.euclidianDistanceBetween(y, z);
+            double distanceBetweenZAndX = Point.euclidianDistanceBetween(z, x);
 
             Boolean isContainedInsideCircle = Stream.of(
                     // In the first case we set X to be the middle of the circle of radius RADIUS1
