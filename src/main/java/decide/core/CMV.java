@@ -14,7 +14,7 @@ public class CMV {
     public static final int CMV_SIZE = 15;
 
     // The CMV vector contains true/false values for each LIC.
-    private boolean[] cmv = new boolean[CMV_SIZE];
+    private final boolean[] cmv = new boolean[CMV_SIZE];
 
     private Parameters parameters;
     private Point[] points;
@@ -66,7 +66,7 @@ public class CMV {
      */
     private boolean lic0() {
         for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].distance(points[i + 1]) > parameters.LENGTH1) {
+            if (Point.euclidianDistanceBetween(points[i], points[i + 1]) > parameters.LENGTH1) {
                 return true;
             }
         }
@@ -79,6 +79,15 @@ public class CMV {
      * (0 ≤ RADIUS1)
      */
     private boolean lic1() {
+        for(int i = 0; i < points.length-2; i++) {
+            // Translate the points to understandable mathematical variables
+            Point x = points[i];
+            Point y = points[i + 1];
+            Point z = points[i + 2];
+            if(!MathTools.pointsAreCoveredByCircle(x, y, z, parameters.RADIUS1)){
+                return true;
+            }
+        }
         return false;
     }
 
