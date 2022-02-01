@@ -54,10 +54,13 @@ public class CMVTest {
         parameters.RADIUS1 = 1;
 
 
-        Point[] points = new Point[3];
+        Point[] points = new Point[6];
         points[0] = new Point(0, 0);
         points[1] = new Point(1, 1);
-        points[2] = new Point(3, 2);
+        points[2] = new Point(1, -1);
+        points[3] = new Point(-1, 1);
+        points[4] = new Point(1, 0);
+        points[5] = new Point(0, 1);
 
         CMV cmv = new CMV(parameters, points);
         assertTrue(cmv.get(1));
@@ -67,12 +70,16 @@ public class CMVTest {
     @DisplayName("LIC 1 Fail")
     void lic1FailTest() {
         Parameters parameters = new Parameters();
-        parameters.RADIUS1 = 1;
+        parameters.RADIUS1 = Math.sqrt(2);
 
-        Point[] points = new Point[3];
+
+        Point[] points = new Point[6];
         points[0] = new Point(0, 0);
-        points[1] = new Point(0.5, 0.5);
-        points[2] = new Point(1, 1);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, -1);
+        points[3] = new Point(-1, 1);
+        points[4] = new Point(1, 0);
+        points[5] = new Point(0, 1);
 
         CMV cmv = new CMV(parameters, points);
         assertFalse(cmv.get(1));

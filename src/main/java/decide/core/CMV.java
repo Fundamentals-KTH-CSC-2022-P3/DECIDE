@@ -2,7 +2,13 @@ package decide.core;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 import static java.lang.Math.PI;
 
@@ -15,7 +21,7 @@ public class CMV {
     public static final int CMV_SIZE = 15;
 
     // The CMV vector contains true/false values for each LIC.
-    private boolean[] cmv = new boolean[CMV_SIZE];
+    private final boolean[] cmv = new boolean[CMV_SIZE];
 
     private Parameters parameters;
     private Point[] points;
@@ -83,34 +89,70 @@ public class CMV {
         if(points.length < 3){
             return false;
         }
+
         for(int i = 0; i < points.length-2; i++){
             // Translate the points to understandable mathematical variables
             Point x = points[i];
             Point y = points[i+1];
             Point z = points[i+2];
 
-            // variables for the distance between our points
-            double distanceBetweenXAndY = Point.euclidianDistanceBetween(x, y);
-            double distanceBetweenYAndZ = Point.euclidianDistanceBetween(y, z);
-            double distanceBetweenZAndX = Point.euclidianDistanceBetween(z, x);
-
-            Boolean isContainedInsideCircle = Stream.of(
-                    // In the first case we set X to be the middle of the circle of radius RADIUS1
-                    distanceBetweenXAndY <= parameters.RADIUS1 &&
-                        distanceBetweenZAndX <= parameters.RADIUS1,
-                    // In the second case we set point Y to be the middle of the circle
-                    distanceBetweenXAndY <= parameters.RADIUS1 &&
-                        distanceBetweenYAndZ <= parameters.RADIUS1,
-                    // In the first case we set point Z to be the middle of the circle
-                    distanceBetweenYAndZ <= parameters.RADIUS1 &&
-                            distanceBetweenZAndX <= parameters.RADIUS1
-            ).reduce((a, b) -> a || b).orElse(false);
-            if(!isContainedInsideCircle) {
+            Optional<Boolean> allPointsWithinReach = calculateAllCircleFocusAndVerifierPointPairs(x, y, z)
+                    .stream()
+                    .map(p -> Point.euclidianDistanceBetween(p.getFirst(), p.getSecond()) <= parameters.RADIUS1)
+                    .reduce((a, b) -> a||b);
+            if (!allPointsWithinReach.orElse(true)) {
                 return true;
             }
         }
         return false;
     }
+
+    private List<Point.Pair> calculateAllCircleFocusAndVerifierPointPairs(Point p1, Point p2, Point p3) {
+        // The Circle focuses are computed from 2 points and then paired with the 3rd
+        List<Point.Pair> toBeReturned = calculateCircleFocuses(p1, p2).stream()
+                .map((Point p) -> new Point.Pair(p, p3)).collect(Collectors.toList());
+        toBeReturned.addAll(calculateCircleFocuses(p2, p3).stream()
+                .map((Point p) -> new Point.Pair(p, p1)).collect(Collectors.toList()));
+        toBeReturned.addAll(calculateCircleFocuses(p3, p1).stream()
+                .map((Point p) -> new Point.Pair(p, p2)).collect(Collectors.toList()));
+        return toBeReturned;
+    }
+
+    private List<Point> calculateCircleFocuses(Point x, Point y) {
+        // The mathematics in this method are calculated from a
+        // Link: https://web.archive.org/web/20141008055635/http://mathforum.org/library/drmath/view/53027.html
+        double distanceBetweenXY = Point.euclidianDistanceBetween(x, y);
+        Point pointBetweenXY = Point.createPointBetween(x, y);
+
+        // Calculate the normalized vector perpendicular to the  line between X and Y as the circle focuses will
+        // be on the line defined by it.
+        double[] normVector = calculateNormalizedVectorPerpendicularToLineBetween(x, y);
+
+        // Using Pythagoras since we now have a fair triangle
+        double distanceFromPointBetweenXYToFocus = sqrt(pow(parameters.RADIUS1, 2) - pow(distanceBetweenXY/2, 2));
+
+        return calculateCircleFocuses(pointBetweenXY, distanceFromPointBetweenXYToFocus, normVector);
+
+    }
+
+    private List<Point> calculateCircleFocuses(Point point, double distanceFromPointToFocus, double[] normalizedVector) {
+        return Arrays.asList(
+                new Point(
+                        point.x + distanceFromPointToFocus * normalizedVector[0],
+                        point.y + distanceFromPointToFocus * normalizedVector[1]
+                ),
+                new Point(
+                        point.x - distanceFromPointToFocus * normalizedVector[0],
+                        point.y - distanceFromPointToFocus * normalizedVector[1]
+                )
+        );
+    }
+
+    private double[] calculateNormalizedVectorPerpendicularToLineBetween(Point x, Point y) {
+        double distanceBetweenXY = Point.euclidianDistanceBetween(x, y);
+        return new double[]{(x.y-y.y)/distanceBetweenXY, (y.x-x.x)/distanceBetweenXY};
+    }
+
 
     /**
      * Returns true if there exists at least one set of three consecutive data points which form an angle such that:
