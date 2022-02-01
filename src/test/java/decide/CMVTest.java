@@ -13,6 +13,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CMVTest {
 
+    private static Point[] createArrayWithPointsAtOrigo(int numberOfPoints) {
+        Point[] points = new Point[numberOfPoints];
+        Arrays.fill(points, new Point(0.0, 0.0));
+        return points;
+    }
+
+    private static Point[] createArrayWithPointsFarAwayFromEachOther(int numberOfPoints) {
+        Point[] points = new Point[numberOfPoints];
+        for (int i = 0; i < numberOfPoints; i++) {
+            points[i] = new Point(i * i, i * i);
+        }
+        return points;
+    }
+
     @Test
     @DisplayName("LIC 0 Success")
     void lic0SuccessTest() {
