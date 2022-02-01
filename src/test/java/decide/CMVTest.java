@@ -88,15 +88,16 @@ public class CMVTest {
     void lic4FailTest() {
         Parameters params = new Parameters();
         params.Q_PTS = 4;
-        params.QUADS = 2;
+        params.QUADS = 3;
 
-        // If there aren't at least Q_PTS successive points in more than QUADS different quadrants, LIC 4 should be false
+        // If there aren't at least Q_PTS successive points in more than QUADS different quadrants, LIC 4 should be false.
+        // Below we create five points in three quadrants, and since !(3 > 3) we should fail.
         Point[] points = new Point[5];
         points[0] = new Point(0, 0);
         points[1] = new Point(0, 0);
         points[2] = new Point(0, 0);
-        points[3] = new Point(0, 0);
-        points[4] = new Point(0, 0);
+        points[3] = new Point(1, -1);
+        points[4] = new Point(-1, -1);
 
         CMV cmv = new CMV(params, points);
 
