@@ -269,6 +269,39 @@ public class CMV {
      * 0 ≤ RADIUS2
      */
     private boolean lic13() {
+        if (parameters.RADIUS2 <= 0) return false;
+        if (points.length < 5) return false;
+
+        for (int i = 0; i < points.length - (parameters.A_PTS + 1) - (parameters.B_PTS + 1); i++) {
+            Point a = points[i];
+            Point b = points[i + parameters.A_PTS + 1];
+            Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
+
+            boolean withOrigoInA, withOrigoInB, withOrigoInC;
+
+            withOrigoInA = a.pointFitsInCircleWithRadius(b, parameters.RADIUS1) && a.pointFitsInCircleWithRadius(c, parameters.RADIUS1);
+            withOrigoInB = b.pointFitsInCircleWithRadius(a, parameters.RADIUS1) && b.pointFitsInCircleWithRadius(c, parameters.RADIUS1);
+            withOrigoInC = c.pointFitsInCircleWithRadius(a, parameters.RADIUS1) && c.pointFitsInCircleWithRadius(b, parameters.RADIUS1);
+            if (withOrigoInA || withOrigoInB || withOrigoInC) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < points.length - (parameters.A_PTS + 1) - (parameters.B_PTS + 1); i++) {
+            Point a = points[i];
+            Point b = points[i + parameters.A_PTS + 1];
+            Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
+
+            boolean withOrigoInA, withOrigoInB, withOrigoInC;
+
+            withOrigoInA = a.pointFitsInCircleWithRadius(b, parameters.RADIUS2) && a.pointFitsInCircleWithRadius(c, parameters.RADIUS2);
+            withOrigoInB = b.pointFitsInCircleWithRadius(a, parameters.RADIUS2) && b.pointFitsInCircleWithRadius(c, parameters.RADIUS2);
+            withOrigoInC = c.pointFitsInCircleWithRadius(a, parameters.RADIUS2) && c.pointFitsInCircleWithRadius(b, parameters.RADIUS2);
+            if (withOrigoInA || withOrigoInB || withOrigoInC) {
+                return true;
+            }
+        }
+
         return false;
     }
 
