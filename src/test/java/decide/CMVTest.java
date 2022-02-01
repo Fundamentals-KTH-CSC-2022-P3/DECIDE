@@ -424,8 +424,56 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 14")
-    void lic14Test() {
-        assertTrue(true);
+    @DisplayName("LIC 14 Success")
+    void lic14SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 2;
+        parameters.F_PTS = 3;
+        parameters.AREA1 = 1.9;
+        parameters.AREA2 = 0.55;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // One triangle is formed from points: 0, 3, 7, this triangle has area 2 which is greater than AREA1 = 1.9.
+        // Another triangle is formed from points: 1, 4, 8, this triangle has area 1/2 which is less than AREA2 = 0.55.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 2);
+
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertTrue(cmv.get(14));
+    }
+
+    @Test
+    @DisplayName("LIC 14 Fail")
+    void lic14FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 2;
+        parameters.F_PTS = 3;
+        parameters.AREA1 = 1.9;
+        parameters.AREA2 = 0.45;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // One triangle is formed from points: 0, 3, 7, this triangle has area 2 which is greater than AREA1 = 1.9.
+        // Another triangle is formed from points: 1, 4, 8, this triangle has area 1/2 which is NOT less than AREA2 = 0.45.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 2);
+
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertFalse(cmv.get(14));
     }
 }

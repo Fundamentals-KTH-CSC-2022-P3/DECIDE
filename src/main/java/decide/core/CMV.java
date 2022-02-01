@@ -317,6 +317,37 @@ public class CMV {
      * 0 ≤ AREA2
      */
     private boolean lic14() {
+        if (points.length < 5)
+            return false;
+
+        boolean hasTriangleAreaLargerThanAREA1 = false;
+        boolean hasTriangleAreaLessThanAREA2 = false;
+
+        for (int i = 0; i < points.length - parameters.E_PTS - parameters.F_PTS - 2; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + parameters.E_PTS + 1];
+            Point p3 = points[i + parameters.E_PTS + parameters.F_PTS + 2];
+
+            // We need to ensure that the three vertices can form a triangle,
+            // hence we cannot allow two points or more to coincide.
+            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
+                continue;
+
+            double area = Triangle.area(p1, p2, p3);
+
+            if (area > parameters.AREA1) {
+                hasTriangleAreaLargerThanAREA1 = true;
+            }
+
+            if (area < parameters.AREA2) {
+                hasTriangleAreaLessThanAREA2 = true;
+            }
+
+            if (hasTriangleAreaLargerThanAREA1 && hasTriangleAreaLessThanAREA2) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
