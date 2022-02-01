@@ -6,6 +6,8 @@ import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -232,9 +234,67 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 9")
-    void lic9Test() {
-        assertTrue(true);
+    @DisplayName("LIC 9 Success")
+    void lic9SuccessTest() {
+        Parameters params = new Parameters();
+        params.EPSILON = Math.PI/4;
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        Point[] points = new Point[10];
+        // Fill with spacer points
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // The set of three points forming the angle.
+        // The middle one is the vertex. They form a right angle, i.e. PI/2 rad.
+        // Since PI/2 < PI - PI/4, EPSILON being PI/4, this succeeds.
+        points[0] = new Point(1.0, 2.0);
+        points[params.C_PTS + 1] = new Point(1.0, 1.0);
+        points[params.C_PTS + params.D_PTS + 2] = new Point(2.0, 1.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertTrue(cmv.get(9));
+    }
+
+    @Test
+    @DisplayName("LIC 9 Fail")
+    void lic9FailTest() {
+        Parameters params = new Parameters();
+        params.EPSILON = 3*Math.PI/4;
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        Point[] points = new Point[10];
+        // Fill with spacer points
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // The set of three points forming the angle.
+        // The middle one is the vertex. They form a right angle, i.e. PI/2 rad.
+        // Since neither PI/2 < PI - 3*PI/4 nor PI/2 > PI + 3*PI/4, EPSILON being PI/4, this fails.
+        points[0] = new Point(1.0, 2.0);
+        points[params.C_PTS + 1] = new Point(1.0, 1.0);
+        points[params.C_PTS + params.D_PTS + 2] = new Point(2.0, 1.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(9));
+    }
+
+    @Test
+    @DisplayName("LIC 9 Invalid input")
+    void lic9InvalidInputTest() {
+        Parameters params = new Parameters();
+        params.C_PTS = 3;
+        params.D_PTS = 4;
+
+        // This violates the condition that C_PTS + D_PTS <= NUMPOINTS - 3
+        Point[] points = new Point[5];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(9));
     }
 
     @Test
