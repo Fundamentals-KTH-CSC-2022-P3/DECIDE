@@ -214,8 +214,8 @@ public class CMVTest {
      * Test that LIC 3 is false when the three points doesn't form a triangle.
      */
     @Test
-    @DisplayName("LIC 3 Illegal triangle")
-    void lic3IllegalTriangleTest() {
+    @DisplayName("LIC 3 Zero area triangle")
+    void lic3ZeroAreaTriangleTest() {
         Parameters parameters = new Parameters();
         parameters.AREA1 = 1;
 
@@ -872,7 +872,7 @@ public class CMVTest {
         points[3] = new Point(2, 0);
         points[7] = new Point(2, 2);
 
-        points[0] = new Point(0, 0);
+        points[1] = new Point(0, 0);
         points[4] = new Point(1, 0);
         points[8] = new Point(1, 1);
 
