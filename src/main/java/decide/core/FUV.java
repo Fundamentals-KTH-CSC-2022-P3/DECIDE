@@ -6,11 +6,11 @@ public class FUV {
 
     /**
      * Compute the FUV vector
-     * @param PUV a boolean vector of length 15
-     * @param PUM a 2d boolean array of size 15x15
+     * @param puv a boolean vector of length 15
+     * @param pum a 2d boolean array of size 15x15
      */
-    public FUV(boolean[] PUV, boolean[][] PUM){
-        computeFUV(PUV, PUM);
+    public FUV(boolean[] puv, PUM pum){
+        computeFUV(puv, pum);
     }
 
     /**
@@ -24,10 +24,10 @@ public class FUV {
     /**
      * FUV[i] = true if PUV[i] = false OR PUM[i][j] = true for j != i, 0 <= j <= 14
      */
-    private void computeFUV(boolean[] PUV, boolean[][] PUM){
+    private void computeFUV(boolean[] puv, PUM pum){
 
-        for (int i = 0; i < PUV.length; i++){
-            FUV[i] = !PUV[i] || checkRow(PUM[i], i);
+        for (int i = 0; i < puv.length; i++){
+            FUV[i] = !puv[i] || checkRow(pum.get(i), i);
         }
     }
 
@@ -45,5 +45,21 @@ public class FUV {
             }
         }
         return true;
+    }
+
+    /**
+     * The final launch/no launch decision is based on the FUV. The decision to launch requires that all
+     * elements in the FUV be true.
+     * @return true if all elements in FUV are true
+     */
+    public boolean canLaunch() {
+        boolean launch = true;
+        for (int i = 0; i < FUV.length; i++) {
+            if(!FUV[i]) {
+                launch = false;
+                break;
+            }
+        }
+        return launch;
     }
 }

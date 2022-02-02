@@ -48,9 +48,41 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 1")
-    void lic1Test() {
-        assertTrue(true);
+    @DisplayName("LIC 1 Success")
+    void lic1SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.RADIUS1 = 1;
+
+
+        Point[] points = new Point[6];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, -1);
+        points[3] = new Point(-1, 1);
+        points[4] = new Point(1, 0);
+        points[5] = new Point(0, 1);
+
+        CMV cmv = new CMV(parameters, points);
+        assertTrue(cmv.get(1));
+    }
+
+    @Test
+    @DisplayName("LIC 1 Fail")
+    void lic1FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.RADIUS1 = Math.sqrt(2);
+
+
+        Point[] points = new Point[6];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 1);
+        points[2] = new Point(1, -1);
+        points[3] = new Point(-1, 1);
+        points[4] = new Point(1, 0);
+        points[5] = new Point(0, 1);
+
+        CMV cmv = new CMV(parameters, points);
+        assertFalse(cmv.get(1));
     }
 
     @Test
@@ -362,15 +394,99 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 11")
-    void lic11Test() {
-        assertTrue(true);
+    @DisplayName("LIC 11 Success")
+    void lic11SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.G_PTS = 2;
+
+        // points[3].x - points[0].x = -2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(-2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly G_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // points[3].x - points[0].x = -2 which is less than 0, hence this must be true.
+        assertTrue(cmv.get(11));
     }
 
     @Test
-    @DisplayName("LIC 12")
-    void lic12Test() {
-        assertTrue(true);
+    @DisplayName("LIC 11 Fail")
+    void lic11FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.G_PTS = 2;
+
+        // points[3].x - points[0].x = 2.
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 0);
+        points[1] = new Point(1, 0);
+        points[2] = new Point(0, 1);
+        points[3] = new Point(2, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // There exists exactly G_PTS = 2 consecutive intervening points between points[0] and points[3] namely points[1] and points[2].
+        // points[3].x - points[0].x = 2 which is not less than 0, hence this must be false.
+        assertFalse(cmv.get(11));
+    }
+
+    /**
+     * Test that LIC 12 evaluates to true when there are two points with exactly K_PTS points between them spaced apart
+     * by a distance greater than LENGTH1, as well as two points with exactly K_PTS between them closer than LENGTH2.
+     */
+    @Test
+    @DisplayName("LIC 12 Success")
+    void lic12SuccessTest() {
+        Parameters params = new Parameters();
+        params.K_PTS = 2;
+        params.LENGTH1 = 5.0;
+        params.LENGTH2 = 3.0;
+
+        Point[] points = new Point[5];
+
+        // points[0] and points[3] are further apart than LENGTH1
+        points[0] = new Point(0.0,0.0);
+        points[3] = new Point(6.0, 0.0);
+
+        // points[1] and points[4] are closer than LENGTH2
+        points[1] = new Point(0.0, 1.0);
+        points[4] = new Point(0.0, 3.0);
+
+        // dummy point to fill the array
+        points[2] = new Point(0.0, 0.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertTrue(cmv.get(12));
+    }
+
+    /**
+     * Test that LIC 12 evaluates to false when there are not two points with exactly K_PTS points between them spaced
+     * apart by a distance greater than LENGTH1, nor two points with exactly K_PTS between them closer than LENGTH2.
+     */
+    @Test
+    @DisplayName("LIC 12 Fail")
+    void lic12FailTest() {
+        Parameters params = new Parameters();
+        params.K_PTS = 1;
+        params.LENGTH1 = 5.0;
+        params.LENGTH2 = 1.0;
+
+        // These points will falsify LIC-12 because
+        // points[0].distance(points[2]) = 2.83 (which is between LENGTH2 and LENGTH1)
+        // points[1].distance(points[3]) = 2.83 (which is between LENGTH2 and LENGTH1)
+        Point[] points = new Point[4];
+        points[0] = new Point(0.0, 0.0);
+        points[1] = new Point(100.0, 100.0);
+        points[2] = new Point(2.0, 2.0);
+        points[3] = new Point(102.0, 102.0);
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(12));
     }
 
     @Test
@@ -380,8 +496,56 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 14")
-    void lic14Test() {
-        assertTrue(true);
+    @DisplayName("LIC 14 Success")
+    void lic14SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 2;
+        parameters.F_PTS = 3;
+        parameters.AREA1 = 1.9;
+        parameters.AREA2 = 0.55;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // One triangle is formed from points: 0, 3, 7, this triangle has area 2 which is greater than AREA1 = 1.9.
+        // Another triangle is formed from points: 1, 4, 8, this triangle has area 1/2 which is less than AREA2 = 0.55.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 2);
+
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertTrue(cmv.get(14));
+    }
+
+    @Test
+    @DisplayName("LIC 14 Fail")
+    void lic14FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 2;
+        parameters.F_PTS = 3;
+        parameters.AREA1 = 1.9;
+        parameters.AREA2 = 0.45;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // One triangle is formed from points: 0, 3, 7, this triangle has area 2 which is greater than AREA1 = 1.9.
+        // Another triangle is formed from points: 1, 4, 8, this triangle has area 1/2 which is NOT less than AREA2 = 0.45.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 2);
+
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 1);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertFalse(cmv.get(14));
     }
 }
