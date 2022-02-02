@@ -13,11 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CMVTest {
 
+    /**
+     * Test that LIC 0 is true when there are two consecutive points in points further than LENGTH1 apart.
+     */
     @Test
     @DisplayName("LIC 0 Success")
     void lic0SuccessTest() {
-        // lic0 should be true if points contains two consecutive points in
-        // points, with a distance greater than LENGTH1 between them.
         Parameters parameters = new Parameters();
         parameters.LENGTH1 = 1;
 
@@ -30,11 +31,12 @@ public class CMVTest {
         assertTrue(cmv.get(0));
     }
 
+    /**
+     * Test that LIC 0 is false when there are not two consecutive points in points further than LENGTH1 apart.
+     */
     @Test
     @DisplayName("LIC 0 Fail")
     void lic0FailTest() {
-        // lic0 should be true if points contains two consecutive points in
-        // points, with a distance greater than LENGTH1 between them.
         Parameters parameters = new Parameters();
         parameters.LENGTH1 = 2;
 
@@ -47,12 +49,15 @@ public class CMVTest {
         assertFalse(cmv.get(0));
     }
 
+    /**
+     * Test that  LIC 1 is true when there exists at least one set of three consecutive points that cannot be contained
+     * within or on a circle of radius RADIUS1.
+     */
     @Test
     @DisplayName("LIC 1 Success")
     void lic1SuccessTest() {
         Parameters parameters = new Parameters();
         parameters.RADIUS1 = 1;
-
 
         Point[] points = new Point[6];
         points[0] = new Point(0, 0);
@@ -66,12 +71,15 @@ public class CMVTest {
         assertTrue(cmv.get(1));
     }
 
+    /**
+     * Test that LIC 1 is false when there exists at least one set of three consecutive points that cannot be contained
+     * within or on a circle of radius RADIUS1.
+     */
     @Test
     @DisplayName("LIC 1 Fail")
     void lic1FailTest() {
         Parameters parameters = new Parameters();
         parameters.RADIUS1 = Math.sqrt(2);
-
 
         Point[] points = new Point[6];
         points[0] = new Point(0, 0);
@@ -85,6 +93,10 @@ public class CMVTest {
         assertFalse(cmv.get(1));
     }
 
+    /**
+     * Test that LIC 2 is true when there exists three consecutive points in points that form an angle A s.t. either
+     * A < PI - EPSILON or A > PI + EPSILON
+     */
     @Test
     @DisplayName("LIC 2 Success")
     void lic2SuccessTest() {
@@ -101,10 +113,14 @@ public class CMVTest {
 
         CMV cmv = new CMV(parameters, points);
 
-        // PI/4 is less than PI - EPSILON = PI/2, hence this must be true.
+        // PI/4 is less than PI - EPSILON = PI/2, hence this should be true.
         assertTrue(cmv.get(2));
     }
 
+    /**
+     * Test that LIC 2 is false when there doesn't exist three consecutive points in points that form an angle A s.t.
+     * either A < PI - EPSILON or A > PI + EPSILON
+     */
     @Test
     @DisplayName("LIC 2 Fail")
     void lic2FailTest() {
@@ -127,6 +143,9 @@ public class CMVTest {
         assertFalse(cmv.get(2));
     }
 
+    /**
+     * Test that LIC 2 is false when the angle formed by the points is undefined.
+     */
     @Test
     @DisplayName("LIC 2 Undefined angle test")
     void lic2UndefinedAngleTest() {
@@ -147,6 +166,11 @@ public class CMVTest {
         assertFalse(cmv.get(2));
     }
 
+    /**
+     * Test that LIC 3 is true when there exists at least one set of three consecutive data points that are the vertices
+     * of a triangle with area greater than AREA1.
+     */
+    @Test
     @DisplayName("LIC 3 Success")
     void lic3SuccessTest() {
         Parameters parameters = new Parameters();
@@ -164,6 +188,10 @@ public class CMVTest {
         assertTrue(cmv.get(3));
     }
 
+    /**
+     * Test that LIC 3 is false when there doesn't exist at least one set of three consecutive data points that are the
+     * vertices of a triangle with area greater than AREA1.
+     */
     @Test
     @DisplayName("LIC 3 Fail")
     void lic3FailTest() {
@@ -182,6 +210,9 @@ public class CMVTest {
         assertFalse(cmv.get(3));
     }
 
+    /**
+     * Test that LIC 3 is false when the three points doesn't form a triangle.
+     */
     @Test
     @DisplayName("LIC 3 Illegal triangle")
     void lic3IllegalTriangleTest() {
@@ -200,6 +231,9 @@ public class CMVTest {
         assertFalse(cmv.get(3));
     }
 
+    /**
+     * Test that LIC 4 is true when there exists Q_PTS consecutive points in more than QUADS quadrants.
+     */
     @Test
     @DisplayName("LIC 4 Success")
     void lic4SuccessTest() {
@@ -220,6 +254,9 @@ public class CMVTest {
         assertTrue(cmv.get(4));
     }
 
+    /**
+     * Test that LIC 4 is false when there doesn't exist Q_PTS consecutive points in more than QUADS quadrants.
+     */
     @Test
     @DisplayName("LIC 4 Fail")
     void lic4FailTest() {
@@ -241,6 +278,10 @@ public class CMVTest {
         assertFalse(cmv.get(4));
     }
 
+    /**
+     * Test that LIC 5 is true when there exists at least one set of two consecutive data points, (X[i],Y[i]) and
+     * (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+     */
     @Test
     @DisplayName("LIC 5 Success")
     void lic5SuccessTest() {
@@ -255,6 +296,10 @@ public class CMVTest {
         assertTrue(cmv.get(5));
     }
 
+    /**
+     * Test that LIC 5 is false when there doesn't exist at least one set of two consecutive data points, (X[i],Y[i])
+     * and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+     */
     @Test
     @DisplayName("LIC 5 Fail")
     void lic5FailTest() {
@@ -275,6 +320,10 @@ public class CMVTest {
         assertTrue(true);
     }
 
+    /**
+     * Test that LIC 7 is true when there exists at least one set of two data points separated by exactly K_PTS
+     * consecutive intervening points that are further than LENGTH1 apart.
+     */
     @Test
     @DisplayName("LIC 7 Success")
     void lic7SuccessTest() {
@@ -296,6 +345,10 @@ public class CMVTest {
         assertTrue(cmv.get(7));
     }
 
+    /**
+     * Test that LIC 7 is false when there doesn't exist at least one set of two data points separated by exactly K_PTS
+     * consecutive intervening points that are further than LENGTH1 apart.
+     */
     @Test
     @DisplayName("LIC 7 Fail")
     void lic7FailTest() {
@@ -369,6 +422,13 @@ public class CMVTest {
         assertFalse(cmv.get(8));
     }
 
+    /**
+     * Test that LIC 9 is true when there exists at least one set of three data points separated by exactly C_PTS and
+     * D_PTS consecutive intervening points, respectively, that form an angle such that:
+     * angle < (PI−EPSILON)
+     * or
+     * angle > (PI+EPSILON)
+     */
     @Test
     @DisplayName("LIC 9 Success")
     void lic9SuccessTest() {
@@ -393,6 +453,13 @@ public class CMVTest {
         assertTrue(cmv.get(9));
     }
 
+    /**
+     * Test that LIC 9 is false when there doesn't exist at least one set of three data points separated by exactly
+     * C_PTS and D_PTS consecutive intervening points, respectively, that form an angle such that:
+     * angle < (PI−EPSILON)
+     * or
+     * angle > (PI+EPSILON)
+     */
     @Test
     @DisplayName("LIC 9 Fail")
     void lic9FailTest() {
@@ -417,6 +484,9 @@ public class CMVTest {
         assertFalse(cmv.get(9));
     }
 
+    /**
+     * Test that LIC 9 is false when the angles formed by the triples of points are undefined.
+     */
     @Test
     @DisplayName("LIC 9 Invalid input")
     void lic9InvalidInputTest() {
@@ -433,6 +503,11 @@ public class CMVTest {
         assertFalse(cmv.get(9));
     }
 
+    /**
+     * Test that LIC 10 is true when there exists at least one set of three data points separated by exactly E_PTS and
+     * F_PTS consecutive intervening points, respectively, that are the vertices of a triangle with area greater than
+     * AREA1.
+     */
     @Test
     @DisplayName("LIC 10 Success")
     void lic10SuccessTest() {
@@ -457,6 +532,11 @@ public class CMVTest {
         assertTrue(cmv.get(10));
     }
 
+    /**
+     * Test that LIC 10 is false when there doesn't exist at least one set of three data points separated by exactly
+     * E_PTS and F_PTS consecutive intervening points, respectively, that are the vertices of a triangle with area
+     * greater than AREA1.
+     */
     @Test
     @DisplayName("LIC 10 Failure")
     void lic10FailureTest() {
@@ -481,6 +561,10 @@ public class CMVTest {
         assertFalse(cmv.get(10));
     }
 
+    /**
+     * Test that LIC 11 is true when there exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]),
+     * separated by exactly G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j)
+     */
     @Test
     @DisplayName("LIC 11 Success")
     void lic11SuccessTest() {
@@ -501,6 +585,10 @@ public class CMVTest {
         assertTrue(cmv.get(11));
     }
 
+    /**
+     * Test that LIC 11 is false when there doesn't exist at least one set of two data points, (X[i],Y[i]) and
+     * (X[j],Y[j]), separated by exactly G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j)
+     */
     @Test
     @DisplayName("LIC 11 Fail")
     void lic11FailTest() {
@@ -583,6 +671,13 @@ public class CMVTest {
         assertTrue(true);
     }
 
+    /**
+     * Test that LIC 14 is true when there exists at least one set of three data points, separated by exactly E_PTS and
+     * F_PTS consecutive intervening points, respectively, that are the vertices of a triangle with area greater than
+     * AREA1, and there exist three data points (which can be the same or different from the three data points
+     * just mentioned) separated by exactly E_PTS and F_PTS consecutive intervening points, respectively, that are the
+     * vertices of a triangle with area less than AREA2.
+     */
     @Test
     @DisplayName("LIC 14 Success")
     void lic14SuccessTest() {
@@ -610,6 +705,13 @@ public class CMVTest {
         assertTrue(cmv.get(14));
     }
 
+    /**
+     * Test that LIC 14 is false when there doesn't exist at least one set of three data points, separated by exactly
+     * E_PTS and F_PTS consecutive intervening points, respectively, that are the vertices of a triangle with area
+     * greater than AREA1, nor does there exist three data points (which can be the same or different from the three
+     * data points just mentioned) separated by exactly E_PTS and F_PTS consecutive intervening points, respectively,
+     * that are the vertices of a triangle with area less than AREA2.
+     */
     @Test
     @DisplayName("LIC 14 Fail")
     void lic14FailTest() {
