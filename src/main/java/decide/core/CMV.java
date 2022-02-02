@@ -137,11 +137,6 @@ public class CMV {
             Point p2 = points[i + 1];
             Point p3 = points[i + 2];
 
-            // We need to ensure that the three vertices can form a triangle,
-            // hence we cannot allow two points or more to coincide.
-            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-                continue;
-
             double area = Triangle.area(p1, p2, p3);
 
             if (area > parameters.AREA1)
@@ -362,11 +357,6 @@ public class CMV {
             Point p1 = points[i];
             Point p2 = points[i + parameters.E_PTS + 1];
             Point p3 = points[i + parameters.E_PTS + parameters.F_PTS + 2];
-
-            // We need to ensure that the three vertices can form a triangle,
-            // hence we cannot allow two points or more to coincide.
-            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-                continue;
 
             double area = Triangle.area(p1, p2, p3);
 
