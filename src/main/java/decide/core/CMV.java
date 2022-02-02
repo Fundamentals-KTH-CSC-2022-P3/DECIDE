@@ -223,6 +223,18 @@ public class CMV {
      * A_PTS+B_PTS ≤ (NUMPOINTS−3)
      */
     private boolean lic8() {
+        if (points.length < 5)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.A_PTS - parameters.B_PTS - 2; i++) {
+            if (!MathTools.pointsAreCoveredByCircle(
+                    points[i],
+                    points[i + parameters.A_PTS + 1],
+                    points[i + parameters.A_PTS + parameters.B_PTS + 2],
+                    parameters.RADIUS1)) {
+                return true;
+            }
+        }
         return false;
     }
 
