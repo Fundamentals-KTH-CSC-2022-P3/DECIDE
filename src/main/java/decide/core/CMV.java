@@ -336,12 +336,7 @@ public class CMV {
             Point b = points[i + parameters.A_PTS + 1];
             Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
 
-            boolean withOrigoInA, withOrigoInB, withOrigoInC;
-
-            withOrigoInA = a.pointFitsInCircleWithRadius(b, parameters.RADIUS1) && a.pointFitsInCircleWithRadius(c, parameters.RADIUS1);
-            withOrigoInB = b.pointFitsInCircleWithRadius(a, parameters.RADIUS1) && b.pointFitsInCircleWithRadius(c, parameters.RADIUS1);
-            withOrigoInC = c.pointFitsInCircleWithRadius(a, parameters.RADIUS1) && c.pointFitsInCircleWithRadius(b, parameters.RADIUS1);
-            if (withOrigoInA || withOrigoInB || withOrigoInC) {
+            if (MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS1)) {
                 return false;
             }
         }
