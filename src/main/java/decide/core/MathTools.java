@@ -31,10 +31,7 @@ public class MathTools {
                 remaining = p1;
             }
 
-            // Calculate the midpoint, which is the point exactly between the 'coincide' point and the 'remaining' point.
-            Point midpoint = new Point((coincide.x + remaining.x) / 2, (coincide.y + remaining.y) / 2);
-
-            return midpoint.distance(coincide) <= radius && midpoint.distance(remaining) <= radius;
+            return Point.euclidianDistanceBetween(coincide, remaining) <= 2 * radius;
         }
 
         Optional<Boolean> isCoveredByAtLeastOneCircle = calculateAllCircleFocusAndVerifierPointPairs(p1, p2, p3, radius)
