@@ -1,7 +1,7 @@
-package com.example;
+package decide;
 
-import com.example.core.Parameters;
-import com.example.core.Point;
+import decide.core.Parameters;
+import decide.core.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +43,7 @@ public class ParametersTest {
         validParams.AREA2 = 1.0;
 
         // Create arbitrary points array. 10 points should be valid.
-        com.example.core.Point[] points = new Point[10];
+        Point[] points = new Point[10];
         Arrays.fill(points, new Point(0.0, 0.0));
 
         assertDoesNotThrow(() -> Parameters.verify(validParams, points));
