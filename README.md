@@ -50,6 +50,7 @@ did what can be seen in the list below.
   - Code for checking if 3 points are on a circle
   - LIC 1
   - LIC 10
+
 ## Setup
 
 Down below is a list of the tools and technologies used in this project.
@@ -63,14 +64,17 @@ These tools are used in the project:
 - Bazel For IntelliJ Plugin
 
 #### Java 17
+
 We'd recommend using the OpenJDK version of Java 17, though it should still work independently of JVM implementation.
 
 #### IntelliJ IDEA
+
 This project is created and coded with IntelliJ IDEA Ultimate. You can follow the link here for the
 [license for the IDEA](https://www.jetbrains.com/community/education/#students), and then install it
 through any package manager of your choice. Use your license to verify your copy.
 
 #### Bazel
+
 Install Bazel through a package manager, and you're ready to go.
 
 ### Configuration
