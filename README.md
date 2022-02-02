@@ -53,8 +53,7 @@ did what can be seen in the list below.
 
 ## Setup
 
-Down below is a list of the tools and technologies used in this project.
-Furthermore, a description of how to get the project running on your own computer.
+Down below is a description of how to configure the project.
 
 ### Tools
 These tools are used in the project:
@@ -100,6 +99,6 @@ and debug the software.
 
 #### Test Configuration
 
-Go to the menu bar and choose __Run -> Edit Configurations...__.  Above the empty list of configurations, press the +.
+Go to the menu bar and choose __Run -> Edit Configurations...__.  Then, press the +.
 Add a new test configuration of type Bazel Command. Choose the target expression to be _//src/test/java/decide:testsuite_, 
 and choose the Bazel command to be of type _Test_. Press Apply and you should now be able to run the test suite.
