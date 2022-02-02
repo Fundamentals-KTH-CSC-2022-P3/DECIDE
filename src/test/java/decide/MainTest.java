@@ -18,15 +18,48 @@ public class MainTest {
     @Test
     @DisplayName("The program should throw an exception if we run it with more than 100 points")
     void moreThan100PointsTest() {
+        Parameters validParams = new Parameters();
+        validParams.LENGTH1 = 1.0;
+        validParams.RADIUS1 = 1.0;
+        validParams.EPSILON = 1.0;
+        validParams.AREA1 = 1.0;
+        validParams.Q_PTS = 2;
+        validParams.QUADS = 1;
+        validParams.DIST = 1.0;
+        validParams.N_PTS = 3;
+        validParams.K_PTS = 1;
+        validParams.A_PTS = 1;
+        validParams.B_PTS = 1;
+        validParams.C_PTS = 1;
+        validParams.D_PTS = 1;
+        validParams.E_PTS = 1;
+        validParams.F_PTS = 1;
+        validParams.G_PTS = 1;
+        validParams.LENGTH2 = 1.0;
+        validParams.RADIUS2 = 1.0;
+        validParams.AREA2 = 1.0;
+
+        Point[] points = new Point[101];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        assertThrows(IllegalArgumentException.class, () -> Parameters.verify(validParams, points));
+    }
+
+    /**
+     * Test that the launch with the right is set to true.
+     */
+    @Test
+    @DisplayName("Launch True Test")
+    void launchTrueTest() {
         Parameters params = new Parameters();
         params.LENGTH1 = 1.0;
         params.RADIUS1 = 1.0;
         params.EPSILON = 1.0;
         params.AREA1 = 1.0;
-        params.Q_PTS = 1;
+        params.Q_PTS = 2;
         params.QUADS = 1;
         params.DIST = 1.0;
-        params.N_PTS = 1;
+        params.N_PTS = 3;
         params.K_PTS = 1;
         params.A_PTS = 1;
         params.B_PTS = 1;
@@ -39,18 +72,14 @@ public class MainTest {
         params.RADIUS2 = 1.0;
         params.AREA2 = 1.0;
 
-        Point[] points = new Point[101];
-        Arrays.fill(points, new Point(0.0, 0.0));
+        Point[] points = new Point[100];
+        Arrays.fill(points, new Point(0, 0));
 
-        assertThrows(IllegalArgumentException.class, () -> Parameters.verify(params, points));
-    }
+        assertDoesNotThrow(() -> Parameters.verify(params, points));
 
-    /**
-     * Test that the launch with the right is set to true.
-     */
-    @Test
-    @DisplayName("Launch True Test")
-    void launchTrueTest() {
+        CMV cmv = new CMV(params, points);
 
+        // for (int i = 0; i < CMV.CMV_SIZE; i++)
+         //    assertFalse(cmv.get(i));
     }
 }
