@@ -102,4 +102,31 @@ public class Point {
 
         return angle;
     }
+
+    public static double euclidianDistanceBetween(Point startPoint, Point endPoint){
+        return Math.sqrt(Math.pow(startPoint.x - endPoint.x, 2) + Math.pow(startPoint.y - endPoint.y, 2));
+    }
+
+    public static Point createPointBetween(Point a, Point b) {
+        return new Point((a.x + b.x)/2, (a.y + b.y)/2);
+    }
+
+    public static class Pair {
+        private final Point first;
+        private final Point second;
+
+        public Pair(Point first, Point second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public Point getFirst(){
+            return first;
+        }
+
+        public Point getSecond(){
+            return second;
+        }
+
+    }
 }

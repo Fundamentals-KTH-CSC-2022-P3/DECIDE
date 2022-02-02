@@ -14,7 +14,7 @@ public class CMV {
     public static final int CMV_SIZE = 15;
 
     // The CMV vector contains true/false values for each LIC.
-    private boolean[] cmv = new boolean[CMV_SIZE];
+    private final boolean[] cmv = new boolean[CMV_SIZE];
 
     private Parameters parameters;
     private Point[] points;
@@ -66,7 +66,7 @@ public class CMV {
      */
     private boolean lic0() {
         for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].distance(points[i + 1]) > parameters.LENGTH1) {
+            if (Point.euclidianDistanceBetween(points[i], points[i + 1]) > parameters.LENGTH1) {
                 return true;
             }
         }
@@ -79,6 +79,15 @@ public class CMV {
      * (0 ≤ RADIUS1)
      */
     private boolean lic1() {
+        for(int i = 0; i < points.length-2; i++) {
+            // Translate the points to understandable mathematical variables
+            Point x = points[i];
+            Point y = points[i + 1];
+            Point z = points[i + 2];
+            if(!MathTools.pointsAreCoveredByCircle(x, y, z, parameters.RADIUS1)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -118,6 +127,22 @@ public class CMV {
      * (0 ≤ AREA1)
      */
     private boolean lic3() {
+        for (int i = 0; i < points.length - 2; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + 1];
+            Point p3 = points[i + 2];
+
+            // We need to ensure that the three vertices can form a triangle,
+            // hence we cannot allow two points or more to coincide.
+            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
+                continue;
+
+            double area = Triangle.area(p1, p2, p3);
+
+            if (area > parameters.AREA1)
+                return true;
+        }
+
         return false;
     }
 
@@ -148,6 +173,11 @@ public class CMV {
      * that X[j] - X[i] < 0. (where i = j-1)
      */
     private boolean lic5() {
+        for (int i = 0; i < points.length - 1; i++){
+            if ((points[i+1].x - points[i].x) < 0){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -168,7 +198,20 @@ public class CMV {
      * that are a distance greater than the length, LENGTH1, apart. The condition is not met when NUMPOINTS < 3.
      * 1 ≤ K_PTS ≤ (NUMPOINTS−2)
      */
-    private boolean lic7() {
+    public boolean lic7() {
+        if (points.length < 3)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.K_PTS - 1; i++) {
+            // The consecutive intervening points are those points that are between the start point and the end point in the array.
+            Point start = points[i];
+            Point end = points[i + parameters.K_PTS + 1];
+
+            // Check if the start point and the end point have a distance greater than LENGTH1 between them.
+            if (start.distance(end) > parameters.LENGTH1)
+                return true;
+        }
+
         return false;
     }
 
@@ -196,6 +239,15 @@ public class CMV {
      * C_PTS+D_PTS ≤ NUMPOINTS−3
      */
     private boolean lic9() {
+        for (int i = 0; i < points.length - parameters.C_PTS - parameters.D_PTS - 2; i++) {
+            double angle = Point.vertexAngle(points[i],
+                    points[i+parameters.C_PTS+1],
+                    points[i+parameters.C_PTS+parameters.D_PTS+2]);
+
+            if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -217,6 +269,18 @@ public class CMV {
      * 1 ≤ G_PTS ≤ NUMPOINTS−2
      */
     private boolean lic11() {
+        if (points.length < 3)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.G_PTS - 1; i++) {
+            // The consecutive intervening points are the points with indices in the open interval (i, j).
+            int j = i + parameters.G_PTS + 1;
+
+            // Check if X[j] - X[i] < 0.
+            if (points[j].x - points[i].x < 0)
+                return true;
+        }
+
         return false;
     }
 
@@ -230,6 +294,26 @@ public class CMV {
      * 0 ≤ LENGTH2
      */
     private boolean lic12() {
+        if (points.length < 3) {
+            return false;
+        }
+
+        boolean hasTwoPointsSpacedApartByLENGTH1 = false;
+        boolean hasTwoPointsCloserThanLENGTH2 = false;
+        for (int i = 0; i < points.length - parameters.K_PTS - 1; i++) {
+            double distance = points[i].distance(points[i + parameters.K_PTS + 1]);
+            if (distance > parameters.LENGTH1) {
+                hasTwoPointsSpacedApartByLENGTH1 = true;
+            }
+
+            if (distance < parameters.LENGTH2) {
+                hasTwoPointsCloserThanLENGTH2 = true;
+            }
+
+            if (hasTwoPointsSpacedApartByLENGTH1 && hasTwoPointsCloserThanLENGTH2) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -258,6 +342,37 @@ public class CMV {
      * 0 ≤ AREA2
      */
     private boolean lic14() {
+        if (points.length < 5)
+            return false;
+
+        boolean hasTriangleAreaLargerThanAREA1 = false;
+        boolean hasTriangleAreaLessThanAREA2 = false;
+
+        for (int i = 0; i < points.length - parameters.E_PTS - parameters.F_PTS - 2; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + parameters.E_PTS + 1];
+            Point p3 = points[i + parameters.E_PTS + parameters.F_PTS + 2];
+
+            // We need to ensure that the three vertices can form a triangle,
+            // hence we cannot allow two points or more to coincide.
+            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
+                continue;
+
+            double area = Triangle.area(p1, p2, p3);
+
+            if (area > parameters.AREA1) {
+                hasTriangleAreaLargerThanAREA1 = true;
+            }
+
+            if (area < parameters.AREA2) {
+                hasTriangleAreaLessThanAREA2 = true;
+            }
+
+            if (hasTriangleAreaLargerThanAREA1 && hasTriangleAreaLessThanAREA2) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
