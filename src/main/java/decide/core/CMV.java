@@ -112,7 +112,12 @@ public class CMV {
             if (p1.equals(vertex) || p2.equals(vertex))
                 continue;
 
-            double angle = Point.vertexAngle(p1, vertex, p2);
+            double angle;
+            try {
+                angle = Point.vertexAngle(p1, vertex, p2);
+            } catch (Point.UndefinedAngleException e) {
+                continue;
+            }
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON)
                 return true;
@@ -240,9 +245,14 @@ public class CMV {
      */
     private boolean lic9() {
         for (int i = 0; i < points.length - parameters.C_PTS - parameters.D_PTS - 2; i++) {
-            double angle = Point.vertexAngle(points[i],
-                    points[i+parameters.C_PTS+1],
-                    points[i+parameters.C_PTS+parameters.D_PTS+2]);
+            double angle;
+            try {
+                angle = Point.vertexAngle(points[i],
+                        points[i + parameters.C_PTS + 1],
+                        points[i + parameters.C_PTS + parameters.D_PTS + 2]);
+            } catch (Point.UndefinedAngleException e) {
+                continue;
+            }
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON) {
                 return true;
