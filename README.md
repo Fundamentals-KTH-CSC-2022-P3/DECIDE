@@ -102,7 +102,13 @@ and choose the Bazel command to be of type _Test_. Press Apply and you should no
 
 ### Development workflow
 
-TODO
+Contributions should follow the following procedure
+
+1. open an issue (if one doesn't already exist) that clearly describes what the feature/bug is
+2. open a feature branch from `main` with the following syntax `issue-[ISSUE NUMBER]/slug-of-the-issue-title`
+3. open a PR for merging the feature branch into main
+4. only merges after one approval and all unit tests pass
+
 ### Statement Of Contributions
 
 How the work load was separated between the group members, and who
@@ -137,3 +143,4 @@ did what can be seen in the list below.
   - Code for checking if 3 points are on a circle
   - LIC 1
   - LIC 10
+
