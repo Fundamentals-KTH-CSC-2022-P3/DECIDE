@@ -363,28 +363,26 @@ public class CMV {
         if (points.length < 5)
             return false;
 
-        boolean cannotContainInCircleOfRADIUS1 = false;
-        boolean canContainInCircleOfRADIUS2 = false;
+        boolean coveredByRadius1 = true;
+        boolean coveredByRadius2 = false;
 
-        for (int i = 0; i < points.length - parameters.A_PTS - parameters.B_PTS - 2; i++) {
-            Point p1 = points[i];
-            Point p2 = points[i + parameters.A_PTS + 1];
-            Point p3 = points[i + parameters.A_PTS + parameters.B_PTS + 2];
+        for (int i = 0; i < points.length - (parameters.A_PTS + 1) - (parameters.B_PTS + 1); i++) {
+            Point a = points[i];
+            Point b = points[i + parameters.A_PTS + 1];
+            Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
 
-            if (!MathTools.pointsAreCoveredByCircle(p1, p2, p3, parameters.RADIUS1)) {
-                cannotContainInCircleOfRADIUS1 = true;
+            boolean coveredByCircle1 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS1);
+            boolean coveredByCircle2 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS2);
+
+            if (!coveredByCircle1) {
+                coveredByRadius1 = false;
             }
-
-            if (MathTools.pointsAreCoveredByCircle(p1, p2, p3, parameters.RADIUS2)) {
-                canContainInCircleOfRADIUS2 = true;
-            }
-
-            if (cannotContainInCircleOfRADIUS1 && canContainInCircleOfRADIUS2) {
-                return true;
+            if (coveredByCircle2) {
+                coveredByRadius2 = true;
             }
         }
 
-        return false;
+        return !coveredByRadius1 && coveredByRadius2;
     }
 
     /**
