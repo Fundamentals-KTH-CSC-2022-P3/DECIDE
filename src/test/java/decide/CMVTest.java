@@ -601,7 +601,7 @@ public class CMVTest {
 
         Point[] points = new Point[9];
         Arrays.fill(points, new Point(0.0, 0.0));
-
+        
         // The circle formed from points: 0, 3, 7 requires a radius of 1 to contain them all, hence RADIUS1 cannot contain these points.
         points[0] = new Point(0, 0);
         points[3] = new Point(2, 0);
