@@ -259,6 +259,18 @@ public class CMV {
      * A_PTS+B_PTS ≤ (NUMPOINTS−3)
      */
     private boolean lic8() {
+        if (points.length < 5)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.A_PTS - parameters.B_PTS - 2; i++) {
+            if (!MathTools.pointsAreCoveredByCircle(
+                    points[i],
+                    points[i + parameters.A_PTS + 1],
+                    points[i + parameters.A_PTS + parameters.B_PTS + 2],
+                    parameters.RADIUS1)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -300,6 +312,21 @@ public class CMV {
      * E_PTS+F_PTS ≤ NUMPOINTS−3
      */
     private boolean lic10() {
+        if(points.length < 5) {
+            return false;
+        }
+        int distanceToMiddlePoint = parameters.E_PTS + 1;
+        int distanceToFinalPoint = distanceToMiddlePoint + parameters.F_PTS + 1;
+        for(int i = 0; i < points.length - distanceToFinalPoint; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + distanceToMiddlePoint];
+            Point p3 = points[i + distanceToFinalPoint];
+
+            double area = Triangle.area(p1, p2, p3);
+            if (area > parameters.AREA1) {
+                return true;
+            }
+        }
         return false;
     }
 
