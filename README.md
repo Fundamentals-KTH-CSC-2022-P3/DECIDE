@@ -20,11 +20,11 @@ DECIDE is a program that calculates from a set of input values whether to launch
 
 Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480). We will get you up to speed with what this assignment is about and what we have done.
 
-We also explain how to run and debug the program on your own computer and run the test suite.
+We also explain how to build, run and debug the program on your own computer and run the test suite.
 
 ## Summary
 
-The purpose of this program is to implement the Launch Interceptor Program according to the requirement specification laid out by Knight and Leveson and adapted by Regehr and Monperrus.
+DECIDE implements the Launch Interceptor Program, which is described in the requirement specification laid out by Knight and Leveson and adapted by Regehr and Monperrus.
 
 This is achieved in part by calculating 15 different Launch Interceptor Conditions, according to the specification. For further details, refer to the specification. 
 
@@ -155,6 +155,7 @@ did what can be seen in the list below.
 
 It should be noted that this is a rough estimate of who was the main contributor to the different tasks.
 Certain tasks were pair programmed, and others were solved after group discussions regarding design and implementation.
+Furthermore, everybody has participated in code reviews of each other's code.
 
 - Ludwig Kristoffersson:
   - Setup build and testing environment
