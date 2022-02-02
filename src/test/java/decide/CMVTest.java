@@ -351,6 +351,9 @@ public class CMVTest {
         params.LENGTH1 = 5.0;
         params.LENGTH2 = 1.0;
 
+        // These points will falsify LIC-12 because
+        // points[0].distance(points[2]) = 2.83 (which is between LENGTH2 and LENGTH1)
+        // points[1].distance(points[3]) = 2.83 (which is between LENGTH2 and LENGTH1)
         Point[] points = new Point[4];
         points[0] = new Point(0.0, 0.0);
         points[1] = new Point(100.0, 100.0);
