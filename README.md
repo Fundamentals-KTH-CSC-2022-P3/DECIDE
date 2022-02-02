@@ -2,10 +2,10 @@
 
 - [DECIDE](#decide)
   - [Summary](#summary)
-  - [Installation](#installation)
+  - [Run a prebuilt version](#run-a-prebuilt-version)
   - [Build](#build)
     - [Run the testsuite](#run-the-testsuite)
-    - [Configure for development with Intellij](#configure-for-development-with-intellij)
+    - [Configure for development with IntelliJ (recommended)](#configure-for-development-with-intellij-recommended)
       - [About the java version](#about-the-java-version)
       - [IntelliJ IDEA for students](#intellij-idea-for-students)
       - [Bazel](#bazel)
@@ -26,18 +26,66 @@ The goal of this assignment is to implement a Launch Interceptor Program from a 
 
 The most time-demanding steps were to implement 15 different Launch Interceptor Conditions (LICs). In addition, creating unit tests for each LIC to ensure correctness. While the assignment was about implementing a specific program, the main purpose of the assignment was to learn to work with teams, git, and other software methods and tools.
 
-## Installation
+## Run a prebuilt version
 
+All the versions of the `DECIDE` software is listed on the [releases page](https://github.com/Fundamentals-KTH-CSC-2022-P3/DECIDE/releases). The pre-built binaries can be downloaded from there.
+
+Once downloaded, extract the archive
+
+```bash
+tar xvf DECIDE.tar.gz
+```
+
+To execute `DECIDE`, run
+
+```bash
+./DECIDE
+```
 
 ## Build
 
-TODO
+
+To build `DECIDE` locally, you will need a local java development environment, and bazel installed. The easiest way to install is the following.
+
+On **MacOS:**
+
+```bash
+brew install bazelisk
+```
+
+On **Linux** or **Windws** use a prebuilt binary from the [bazelisk website](https://github.com/bazelbuild/bazelisk/releases).
+
+The first step is to download the git repo (assumes appropriate access)
+
+```bash
+git clone git@github.com:Fundamentals-KTH-CSC-2022-P3/DECIDE.git
+cd DECIDE
+```
+
+Then the following command will build `DECIDE`
+
+```bash
+bazel build //src/main/java/decide/program:DECIDE
+
+# it con now be executed using
+./bazel-bin/src/main/java/decide/program/DECIDE
+```
+
+You can also build an run `DECIDE` in one step
+
+```bash
+bazel run //src/main/java/decide/program:DECIDE
+```
 
 ### Run the testsuite
 
-TODO
+You can run the default testsuite with the following command
 
-### Configure for development with Intellij
+```bash
+bazel test --color=yes --test_output=all -- //src/test/java/decide:testsuite
+```
+
+### Configure for development with IntelliJ (recommended)
 
 This section describes how to configure the project for development in IntelliJ.
 
