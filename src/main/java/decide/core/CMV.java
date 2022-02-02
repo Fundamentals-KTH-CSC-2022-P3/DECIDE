@@ -360,7 +360,29 @@ public class CMV {
      * 0 ≤ RADIUS2
      */
     private boolean lic13() {
-        return false;
+        if (points.length < 5)
+            return false;
+
+        boolean coveredByRadius1 = true;
+        boolean coveredByRadius2 = false;
+
+        for (int i = 0; i < points.length - (parameters.A_PTS + 1) - (parameters.B_PTS + 1); i++) {
+            Point a = points[i];
+            Point b = points[i + parameters.A_PTS + 1];
+            Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
+
+            boolean coveredByCircle1 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS1);
+            boolean coveredByCircle2 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS2);
+
+            if (!coveredByCircle1) {
+                coveredByRadius1 = false;
+            }
+            if (coveredByCircle2) {
+                coveredByRadius2 = true;
+            }
+        }
+
+        return !coveredByRadius1 && coveredByRadius2;
     }
 
     /**

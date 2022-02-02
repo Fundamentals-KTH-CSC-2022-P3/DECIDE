@@ -578,9 +578,72 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 13")
-    void lic13Test() {
-        assertTrue(true);
+    @DisplayName("LIC 13 Should be false if the number of points is less than 5")
+    void lic13PointsFailTest() {
+        Parameters params = new Parameters();
+
+        Point[] points = new Point[3];
+        Arrays.fill(points, new Point(0, 0));
+
+        CMV cmv = new CMV(params, points);
+
+        assertFalse(cmv.get(13));
+    }
+
+    @Test
+    @DisplayName("LIC 13 Success")
+    void lic13SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.A_PTS = 2;
+        parameters.B_PTS = 3;
+        parameters.RADIUS1 = 0.9;
+        parameters.RADIUS2 = 0.5;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+        
+        // The circle formed from points: 0, 3, 7 requires a radius of 1 to contain them all, hence RADIUS1 cannot contain these points.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 0);
+
+        // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // Must be true because RADIUS1 cannot contain the points: 0, 3, 7 and RADIUS2 can contain the points: 0, 4, 8.
+        assertTrue(cmv.get(13));
+    }
+
+    @Test
+    @DisplayName("LIC 13 Fail")
+    void lic13FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.A_PTS = 2;
+        parameters.B_PTS = 3;
+        parameters.RADIUS1 = 1.1;
+        parameters.RADIUS2 = 0.5;
+
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
+
+        // The circle formed from points: 0, 3, 7 requires a radius of 1 to contain them all, hence RADIUS1 CAN contain these points.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 0);
+
+        // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // Must be false because RADIUS1 can contain both the points 0, 3, 7, and also the points: 1, 4, 8
+        assertFalse(cmv.get(13));
     }
 
     @Test
