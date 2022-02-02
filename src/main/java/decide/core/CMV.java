@@ -190,16 +190,34 @@ public class CMV {
      * Pre-conditions: (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
      */
     private boolean lic6() {
-        if (parameters.N_PTS < 3 || parameters.N_PTS > points.length || parameters.DIST < 0){
-            return false;
-        }
-        for (int start = 0; start < points.length - parameters.N_PTS + 1; start++) {
-            int end = start + parameters.N_PTS - 1;
 
-            if (points[start].x == points[end].x && points[start].y == points[end].y) {
-                // when the first and last points of these N PTS are identical
-                for (int j = start + 1; j < end; j++) {
-                    if (points[j].distance(points[start]) > parameters.DIST) {
+        for (int first = 0; first < points.length - parameters.N_PTS + 1; first++) {
+            int last = first + parameters.N_PTS - 1;
+
+            if (points[first].x == points[last].x && points[first].y == points[last].y) {
+                // when the first and last points of these N_PTS are identical
+                for (int i = first + 1; i < last; i++) {
+                    if (points[i].distance(points[first]) > parameters.DIST) {
+                        return true;
+                    }
+                }
+            } else {
+                // Find distance greater than DIST from the line joining the first and last of these N_PTS points
+                // Equation of a line: y = m*x + k or m*x - y + k = 0
+                double a, b, c;
+                // m = dt / dx
+                double dx = points[last].x - points[first].x;
+                double dy = points[last].y - points[first].y;
+                double m = dy / dx;
+                // k = y1 - m*x1
+                double k = points[first].y - m * points[first].x;
+                a = m;
+                b = -1;
+                c = k;
+
+                for (int i = first + 1; i < last; i++) {
+                    double distance = Math.abs(a * points[i].x + b * points[i].y + c) / Math.sqrt(a * a + b * b);
+                    if (distance > parameters.DIST) {
                         return true;
                     }
                 }

@@ -270,9 +270,57 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 6")
-    void lic6Test() {
-        assertTrue(true);
+    @DisplayName("LIC 6 Success nr 1")
+    void lic6SuccessTest1() {
+        Parameters params = new Parameters();
+        params.DIST = 1.0;
+        params.N_PTS = 3;
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 3);
+        points[1] = new Point(4, 3);
+        points[2] = new Point(2, 7);
+        points[3] = new Point(4, 5);
+
+        CMV cmv = new CMV(params, points);
+        // For the 3 consecutive data points: points[0], [1] and [2], points[1] lies a distance greater than DIST
+        // from the line joining the first and last of these N PTS points. LIC6 should therefore return true.
+        assertTrue(cmv.get(6));
+    }
+
+    @Test
+    @DisplayName("LIC 6 Success nr 2")
+    void lic6SuccessTest2() {
+        Parameters params = new Parameters();
+        params.DIST = 1.0;
+        params.N_PTS = 3;
+        Point[] points = new Point[4];
+        points[0] = new Point(0, 3);
+        points[1] = new Point(4, 3);
+        points[2] = new Point(0, 3);
+        points[3] = new Point(4, 5);
+
+        CMV cmv = new CMV(params, points);
+        // For the 3 consecutive data points: points[0], [1] and [2], the first and last points of these N_PTS are
+        // identical, points[1] lies a distance greater than DIST from the coincident point.
+        // LIC6 should therefore return true.
+        assertTrue(cmv.get(6));
+    }
+
+    @Test
+    @DisplayName("LIC 6 Fail")
+    void lic6FailTest() {
+        Parameters params = new Parameters();
+        params.DIST = 10;
+        params.N_PTS = 2;
+        Point[] points = new Point[3];
+        points[0] = new Point(0, 3);
+        points[1] = new Point(1, 5);
+        points[2] = new Point(2, 7);
+
+        CMV cmv = new CMV(params, points);
+        // since all points lie in a straight line, there is no point that lies a distance greater than DIST
+        // from the line joining the first and last of these N PTS points. LIC6 should therefore return false.
+        assertFalse(cmv.get(6));
     }
 
     @Test
