@@ -14,7 +14,7 @@ public class Triangle {
      */
     public static double area(Point p1, Point p2, Point p3) {
         if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-            throw new IllegalArgumentException("This is not a triangle! The 3 vertices are not allowed to coincide");
+            return 0;
 
         // We will use Heron's formula to calculate the area of the triangle.
         // This formula only requires the side lengths of the triangle which we can easily retrieve:
