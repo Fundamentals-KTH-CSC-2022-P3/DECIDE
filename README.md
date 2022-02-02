@@ -7,49 +7,41 @@
     - [Run the testsuite](#run-the-testsuite)
     - [Configure for development with Intellij](#configure-for-development-with-intellij)
       - [About the java version](#about-the-java-version)
-      - [IntelliJ IDEA](#intellij-idea)
+      - [IntelliJ IDEA for students](#intellij-idea-for-students)
       - [Bazel](#bazel)
-      - [Configuration](#configuration)
-        - [Importing Bazel Project](#importing-bazel-project)
-        - [Run/Debug Configuration](#rundebug-configuration)
-        - [Test Configuration](#test-configuration)
+      - [Importing Bazel Project](#importing-bazel-project)
+      - [Add the main configuration](#add-the-main-configuration)
+      - [Add the test Configuration](#add-the-test-configuration)
   - [Contribute](#contribute)
     - [Development workflow](#development-workflow)
     - [Statement Of Contributions](#statement-of-contributions)
 
-Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480).
-We will get you up to speed with what this assignment is about and
-what we have done. Furthermore, how to run and debug the program on your own
-computer and run the test suite.
+Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480). We will get you up to speed with what this assignment is about and what we have done.
+
+Furthermore, how to run and debug the program on your own computer and run the test suite.
 
 ## Summary
 
-The goal of this assignment is to implement a Launch Interceptor Program
-from a given requirement specification.
-Several steps need to be taken to correctly implement the program.
-The most time-demanding steps were to implement 15 different Launch Interceptor Conditions (LICs).
-In addition, creating unit tests for each LIC to ensure correctness.
-While the assignment was about implementing a specific program,
-the main purpose of the assignment was to learn to work with teams, git,
-and other software methods and tools.
+The goal of this assignment is to implement a Launch Interceptor Program from a given requirement specification. Several steps need to be taken to correctly implement the program.
+
+The most time-demanding steps were to implement 15 different Launch Interceptor Conditions (LICs). In addition, creating unit tests for each LIC to ensure correctness. While the assignment was about implementing a specific program, the main purpose of the assignment was to learn to work with teams, git, and other software methods and tools.
 
 ## Installation
 
-TODO
 
 ## Build
 
 TODO
+
 ### Run the testsuite
 
 TODO
+
 ### Configure for development with Intellij
 
 This section describes how to configure the project for development in IntelliJ.
 
-This assumes the following setup
-
-These tools are used in the project:
+This assumes the following setup:
 
 - Java 17
 - IntelliJ IDEA
@@ -60,17 +52,13 @@ These tools are used in the project:
 
 We'd recommend using the OpenJDK version of Java 17, though it should still work independently of JVM implementation.
 
-#### IntelliJ IDEA
+#### IntelliJ IDEA for students
 
-This project is created and coded with IntelliJ IDEA Ultimate. You can follow the link here for the
-[license for the IDEA](https://www.jetbrains.com/community/education/#students), and then install it
-through any package manager of your choice. Use your license to verify your copy.
+This project is created and coded with IntelliJ IDEA Ultimate. You can follow the link here for the [license for the IDEA](https://www.jetbrains.com/community/education/#students), and then install it through any package manager of your choice. Use your license to verify your copy.
 
 #### Bazel
 
 Install Bazel through a package manager, and you're ready to go.
-
-#### Configuration
 
 After cloning this repository, open the folder as a project in IntelliJ. Go to:
 
@@ -78,25 +66,25 @@ __Preferences -> Plugins__
 
 and search for Bazel. Install the plugin Bazel by Google, and when prompted to restart your IDEA do so.
 
-##### Importing Bazel Project
+#### Importing Bazel Project
 
-Go to __File -> Import Bazel Project...__ and choose the DECIDE folder as the Workspace. When prompted to import
-project view, choose to build from BUILD file, and choose the file _DECIDE/BUILD_. Finish the import. This will start up
-the Bazel Console, where syncing is underway. When this finishes, you should be able to see the Bazel logo in the upper
-right corner.
+Go to `File -> Import Bazel Project...` and choose the DECIDE folder as the Workspace.
 
-##### Run/Debug Configuration
+When prompted to import project view, choose to build from BUILD file, and choose the file `DECIDE/BUILD`. Finish the import. This will start up the Bazel Console, where syncing is underway.
 
-Go to the menu bar and choose __Run -> Edit Configurations...__.  Above the empty list of configurations, press the +.
-Add a new run/debug configuration of type Bazel Command. Choose the target expression to be the same name as the main file,
-_//:DECIDE_ and choose the Bazel command to be of type _Run_. Press Apply and you should now be able to both run
-and debug the software.
+When this finishes, you should be able to see the Bazel logo in the upper right corner.
 
-##### Test Configuration
+#### Add the main configuration
 
-Go to the menu bar and choose __Run -> Edit Configurations...__.  Then, press the +.
-Add a new test configuration of type Bazel Command. Choose the target expression to be _//src/test/java/decide:testsuite_,
-and choose the Bazel command to be of type _Test_. Press Apply and you should now be able to run the test suite.
+Navigate to the file at `src/main/java/decide/program/BUILD`. Clicking the green play button in the left sidebar will allow you to pres `Run Bazel ...` this will automatically add the proper configuration for you.
+
+![screenshot](docs/img/BUILD-img-1.png)
+
+#### Add the test Configuration
+
+Similar to adding the main configuration, the testsuite is added by navigating to the file at `src/test/java/decide/BUILD` and clicking the green play button in the left sidebar.
+
+![screenshot](docs/img/BUILD-img-1.png)
 
 ## Contribute
 
@@ -143,4 +131,3 @@ did what can be seen in the list below.
   - Code for checking if 3 points are on a circle
   - LIC 1
   - LIC 10
-
