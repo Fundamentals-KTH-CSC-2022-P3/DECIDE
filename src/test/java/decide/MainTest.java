@@ -44,10 +44,10 @@ public class MainTest {
     }
 
     /**
-     * Test that the launch with the right is set to true.
+     * Check that even though all LICs are false it is possible to trigger a launch by setting each entry in the LCM to NOTUSED.
      */
     @Test
-    @DisplayName("Launch True Test")
+    @DisplayName("Launch True Test 1")
     void launchTrueTest() {
         Parameters params = new Parameters();
         params.LENGTH1 = 1.0;
@@ -83,13 +83,14 @@ public class MainTest {
 
         LCM lcm = new LCM();
 
-        // We set all the LCM entries to NOTUSED which means that the PUM should contain only true.
+        // We set all the LCM entries to NOTUSED which means that the PUM should contain only true entries.
         for (int i = 0; i < LCM.LCM_SIZE; i++)
             for (int j = 0; j < LCM.LCM_SIZE; j++)
                 lcm.set(i, j, LCM.Value.NOTUSED);
 
         PUM pum = new PUM(lcm, cmv);
 
+        // The PUM should contain only true entries.
         for (int i = 0; i < PUM.PUM_SIZE; i++)
             for (int j = 0; j < PUM.PUM_SIZE; j++)
                 assertTrue(pum.get(i, j));
@@ -98,6 +99,9 @@ public class MainTest {
         boolean[] puv = new boolean[PUM.PUM_SIZE];
         Arrays.fill(puv, true);
 
+        FUV fuv = new FUV(puv, pum);
 
+        // Should be true because all rows in the PUM contain only true.
+        assertTrue(fuv.canLaunch());
     }
 }
