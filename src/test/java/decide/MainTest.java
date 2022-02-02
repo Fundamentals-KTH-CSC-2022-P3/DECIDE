@@ -1,8 +1,6 @@
 package decide;
 
-import decide.core.CMV;
-import decide.core.Parameters;
-import decide.core.Point;
+import decide.core.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -79,7 +77,27 @@ public class MainTest {
 
         CMV cmv = new CMV(params, points);
 
+        // Alla borde vara falska när vi fixat insideCircle()
         // for (int i = 0; i < CMV.CMV_SIZE; i++)
-         //    assertFalse(cmv.get(i));
+        //    assertFalse(cmv.get(i));
+
+        LCM lcm = new LCM();
+
+        // We set all the LCM entries to NOTUSED which means that the PUM should contain only true.
+        for (int i = 0; i < LCM.LCM_SIZE; i++)
+            for (int j = 0; j < LCM.LCM_SIZE; j++)
+                lcm.set(i, j, LCM.Value.NOTUSED);
+
+        PUM pum = new PUM(lcm, cmv);
+
+        for (int i = 0; i < PUM.PUM_SIZE; i++)
+            for (int j = 0; j < PUM.PUM_SIZE; j++)
+                assertTrue(pum.get(i, j));
+
+        // All LICs should be considered as a factor in signaling interceptor launch.
+        boolean[] puv = new boolean[PUM.PUM_SIZE];
+        Arrays.fill(puv, true);
+
+
     }
 }
