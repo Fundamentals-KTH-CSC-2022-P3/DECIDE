@@ -26,6 +26,7 @@ public class MathTools {
                 coincide = p1;
                 remaining = p2;
             } else {
+                // p2.equals(p3) must be true here.
                 coincide = p2;
                 remaining = p1;
             }
