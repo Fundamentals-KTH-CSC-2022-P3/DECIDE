@@ -314,6 +314,11 @@ public class CMVTest {
         assertFalse(cmv.get(5));
     }
 
+    /**
+     * Test that LIC 6 is true when there exists at least one set of N_PTS consecutive data points such that at least
+     * one of the points lies a distance greater than DIST from the line joining the first and last of these N_PTS
+     * points, where the first and last points in the set are not identical.
+     */
     @Test
     @DisplayName("LIC 6 Success nr 1")
     void lic6SuccessTest1() {
@@ -332,6 +337,10 @@ public class CMVTest {
         assertTrue(cmv.get(6));
     }
 
+    /**
+     * Test that LIC 6 is true when there exists a set of N_PTS points where the first and last point are identical, and
+     * the distance from this point to some other point in the set is greater than DIST.
+     */
     @Test
     @DisplayName("LIC 6 Success nr 2")
     void lic6SuccessTest2() {
@@ -351,6 +360,11 @@ public class CMVTest {
         assertTrue(cmv.get(6));
     }
 
+    /**
+     * Test that LIC 6 is false when there doesn't exist at least one set of N_PTS consecutive data points such that at
+     * least one of the points lies a distance greater than DIST from the line joining the first and last of these N_PTS
+     * points, where the first and last points in the set are not identical.
+     */
     @Test
     @DisplayName("LIC 6 Fail")
     void lic6FailTest() {
@@ -713,6 +727,9 @@ public class CMVTest {
         assertFalse(cmv.get(12));
     }
 
+    /**
+     * Test that LIC 13 fails when the number of points is less than 5.
+     */
     @Test
     @DisplayName("LIC 13 Should be false if the number of points is less than 5")
     void lic13PointsFailTest() {
@@ -726,6 +743,15 @@ public class CMVTest {
         assertFalse(cmv.get(13));
     }
 
+    /**
+     * Test that LIC 13 is true when the following two conditions are both met:
+     *  1. There exists at least one set of three data points, separated by exactly A_PTS and B_PTS consecutive
+     *     intervening points, respectively, that cannot be contained within or on a circle of radius RADIUS1.
+     *
+     *  2. there exists at least one set of three data points (which can be the same or different from the three data
+     *     points just mentioned) separated by exactly A_PTS and B_PTS consecutive intervening points, respectively,
+     *     that can be contained in or on a circle of radius RADIUS2.
+     */
     @Test
     @DisplayName("LIC 13 Success")
     void lic13SuccessTest() {
@@ -744,7 +770,7 @@ public class CMVTest {
         points[7] = new Point(2, 0);
 
         // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
-        points[0] = new Point(0, 0);
+        points[1] = new Point(0, 0);
         points[4] = new Point(1, 0);
         points[8] = new Point(1, 0);
 
@@ -754,6 +780,11 @@ public class CMVTest {
         assertTrue(cmv.get(13));
     }
 
+    /**
+     * Test that LIC 13 is false when there doesn't exist at least one set of three data points, separated by exactly
+     * A_PTS and B_PTS consecutive intervening points, respectively, that cannot be contained within or on a circle of
+     * radius RADIUS1.
+     */
     @Test
     @DisplayName("LIC 13 Fail")
     void lic13FailTest() {
@@ -772,7 +803,7 @@ public class CMVTest {
         points[7] = new Point(2, 0);
 
         // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
-        points[0] = new Point(0, 0);
+        points[1] = new Point(0, 0);
         points[4] = new Point(1, 0);
         points[8] = new Point(1, 0);
 
