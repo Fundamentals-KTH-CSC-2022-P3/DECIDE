@@ -30,6 +30,11 @@ public class Parameters {
      */
     public static void verify(Parameters parameters, Point[] points) {
 
+        // According to RS 2
+        if (points.length < 2 || points.length > 100) {
+            throw new IllegalArgumentException("NUMPOINTS must be in the range [2, 100].");
+        }
+
         // According to RS 2.1.0
         if (parameters.LENGTH1 < 0) {
             throw new IllegalArgumentException("LENGTH1 must be non-negative.");
