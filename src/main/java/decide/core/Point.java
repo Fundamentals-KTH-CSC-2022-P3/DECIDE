@@ -107,7 +107,11 @@ public class Point {
      * @param p2     an endpoint to create a line (or side) between itself and the vertex.
      * @return the angle between the sides p1-vertex and p2-vertex.
      */
-    public static double vertexAngle(Point p1, Point vertex, Point p2) {
+    public static double vertexAngle(Point p1, Point vertex, Point p2) throws UndefinedAngleException {
+        if (p1.equals(vertex) || p2.equals(vertex)) {
+            throw new UndefinedAngleException("Point coincides with vertex.");
+        }
+
         double a = p1.distance(vertex);
         double b = p2.distance(vertex);
         double c = p1.distance(p2);
@@ -142,5 +146,14 @@ public class Point {
             return second;
         }
 
+    }
+
+    public static class UndefinedAngleException extends Exception {
+        public UndefinedAngleException() {
+        }
+
+        public UndefinedAngleException(String message) {
+            super(message);
+        }
     }
 }

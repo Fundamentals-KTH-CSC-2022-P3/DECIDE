@@ -112,7 +112,12 @@ public class CMV {
             if (p1.equals(vertex) || p2.equals(vertex))
                 continue;
 
-            double angle = Point.vertexAngle(p1, vertex, p2);
+            double angle;
+            try {
+                angle = Point.vertexAngle(p1, vertex, p2);
+            } catch (Point.UndefinedAngleException e) {
+                continue;
+            }
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON)
                 return true;
@@ -131,11 +136,6 @@ public class CMV {
             Point p1 = points[i];
             Point p2 = points[i + 1];
             Point p3 = points[i + 2];
-
-            // We need to ensure that the three vertices can form a triangle,
-            // hence we cannot allow two points or more to coincide.
-            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-                continue;
 
             double area = Triangle.area(p1, p2, p3);
 
@@ -223,6 +223,18 @@ public class CMV {
      * A_PTS+B_PTS ≤ (NUMPOINTS−3)
      */
     private boolean lic8() {
+        if (points.length < 5)
+            return false;
+
+        for (int i = 0; i < points.length - parameters.A_PTS - parameters.B_PTS - 2; i++) {
+            if (!MathTools.pointsAreCoveredByCircle(
+                    points[i],
+                    points[i + parameters.A_PTS + 1],
+                    points[i + parameters.A_PTS + parameters.B_PTS + 2],
+                    parameters.RADIUS1)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -240,9 +252,14 @@ public class CMV {
      */
     private boolean lic9() {
         for (int i = 0; i < points.length - parameters.C_PTS - parameters.D_PTS - 2; i++) {
-            double angle = Point.vertexAngle(points[i],
-                    points[i+parameters.C_PTS+1],
-                    points[i+parameters.C_PTS+parameters.D_PTS+2]);
+            double angle;
+            try {
+                angle = Point.vertexAngle(points[i],
+                        points[i + parameters.C_PTS + 1],
+                        points[i + parameters.C_PTS + parameters.D_PTS + 2]);
+            } catch (Point.UndefinedAngleException e) {
+                continue;
+            }
 
             if (angle < PI - parameters.EPSILON || angle > PI + parameters.EPSILON) {
                 return true;
@@ -259,6 +276,21 @@ public class CMV {
      * E_PTS+F_PTS ≤ NUMPOINTS−3
      */
     private boolean lic10() {
+        if(points.length < 5) {
+            return false;
+        }
+        int distanceToMiddlePoint = parameters.E_PTS + 1;
+        int distanceToFinalPoint = distanceToMiddlePoint + parameters.F_PTS + 1;
+        for(int i = 0; i < points.length - distanceToFinalPoint; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + distanceToMiddlePoint];
+            Point p3 = points[i + distanceToFinalPoint];
+
+            double area = Triangle.area(p1, p2, p3);
+            if (area > parameters.AREA1) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -374,11 +406,6 @@ public class CMV {
             Point p1 = points[i];
             Point p2 = points[i + parameters.E_PTS + 1];
             Point p3 = points[i + parameters.E_PTS + parameters.F_PTS + 2];
-
-            // We need to ensure that the three vertices can form a triangle,
-            // hence we cannot allow two points or more to coincide.
-            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-                continue;
 
             double area = Triangle.area(p1, p2, p3);
 
