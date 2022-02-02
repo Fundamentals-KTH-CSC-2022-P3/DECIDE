@@ -23,4 +23,4 @@ jobs:
 
       - name: Run the Testsuite
         run: |
-          "${GITHUB_WORKSPACE}/bin/bazel" test --curses=no --color=no -- //src/test/java:testsuite
+          "${GITHUB_WORKSPACE}/bin/bazel" test --curses=no --color=no -- //src/test/java/decide:testsuite
