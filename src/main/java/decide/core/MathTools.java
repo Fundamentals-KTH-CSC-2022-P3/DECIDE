@@ -10,6 +10,30 @@ import static java.lang.Math.sqrt;
 
 public class MathTools {
     public static boolean pointsAreCoveredByCircle(Point p1, Point p2, Point p3, double radius){
+        if (p1.equals(p2) && p1.equals(p3) && p2.equals(p3)) {
+            return true;
+        }
+        if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3)) {
+            Point coincide = null;      // Represents the point where two points coincide.
+            Point remaining = null;     // Represents the other remaining point that does not coincide.
+
+            // Figure out which two points coincide.
+            if (p1.equals(p2)) {
+                coincide = p1;
+                remaining = p3;
+            }
+            else if (p1.equals(p3)) {
+                coincide = p1;
+                remaining = p2;
+            } else {
+                // p2.equals(p3) must be true here.
+                coincide = p2;
+                remaining = p1;
+            }
+
+            return Point.euclidianDistanceBetween(coincide, remaining) <= 2 * radius;
+        }
+
         Optional<Boolean> isCoveredByAtLeastOneCircle = calculateAllCircleFocusAndVerifierPointPairs(p1, p2, p3, radius)
                 .stream()
                 .map(p -> Point.euclidianDistanceBetween(p.getFirst(), p.getSecond()) <= radius)

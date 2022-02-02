@@ -187,9 +187,45 @@ public class CMV {
      * points. If the first and last points of these N_PTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N_PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-     * (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
+     * Pre-conditions: (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
      */
     private boolean lic6() {
+        if (points.length < 3 || parameters.N_PTS < 3){
+            return false;
+        }
+
+        for (int first = 0; first < points.length - parameters.N_PTS + 1; first++) {
+            int last = first + parameters.N_PTS - 1;
+
+            if (points[first].equals(points[last])) {
+                // when the first and last points of these N_PTS are identical
+                for (int i = first + 1; i < last; i++) {
+                    if (points[i].distance(points[first]) > parameters.DIST) {
+                        return true;
+                    }
+                }
+            } else {
+                // Find distance greater than DIST from the line joining the first and last of these N_PTS points
+                // Equation of a line: y = m*x + k or m*x - y + k = 0
+                double a, b, c;
+                // m = dy / dx
+                double dx = points[last].x - points[first].x;
+                double dy = points[last].y - points[first].y;
+                double m = dy / dx;
+                // k = y1 - m*x1
+                double k = points[first].y - m * points[first].x;
+                a = m;
+                b = -1;
+                c = k;
+
+                for (int i = first + 1; i < last; i++) {
+                    double distance = Math.abs(a * points[i].x + b * points[i].y + c) / Math.sqrt(a * a + b * b);
+                    if (distance > parameters.DIST) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -360,7 +396,29 @@ public class CMV {
      * 0 ≤ RADIUS2
      */
     private boolean lic13() {
-        return false;
+        if (points.length < 5)
+            return false;
+
+        boolean coveredByRadius1 = true;
+        boolean coveredByRadius2 = false;
+
+        for (int i = 0; i < points.length - (parameters.A_PTS + 1) - (parameters.B_PTS + 1); i++) {
+            Point a = points[i];
+            Point b = points[i + parameters.A_PTS + 1];
+            Point c = points[i + (parameters.A_PTS + 1) + (parameters.B_PTS + 1)];
+
+            boolean coveredByCircle1 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS1);
+            boolean coveredByCircle2 = MathTools.pointsAreCoveredByCircle(a, b, c, parameters.RADIUS2);
+
+            if (!coveredByCircle1) {
+                coveredByRadius1 = false;
+            }
+            if (coveredByCircle2) {
+                coveredByRadius2 = true;
+            }
+        }
+
+        return !coveredByRadius1 && coveredByRadius2;
     }
 
     /**
