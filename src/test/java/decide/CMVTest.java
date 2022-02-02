@@ -434,9 +434,51 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 10")
-    void lic10Test() {
-        assertTrue(true);
+    @DisplayName("LIC 10 Success")
+    void lic10SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 1;
+        parameters.F_PTS = 1;
+        parameters.AREA1 = 0.3;
+
+        Point[] points = new Point[6];
+        // These will be tested in the first run in the loop, with an area of 1/2.
+        points[0] = new Point(0, 0);
+        points[2] = new Point(1, 0);
+        points[4] = new Point(0, 1);
+
+        // These will go in the second run, but since it's a line the area will be 0
+        points[1] = new Point(1, 1);
+        points[3] = new Point(0, 0);
+        points[5] = new Point(-3, -3);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertTrue(cmv.get(10));
+    }
+
+    @Test
+    @DisplayName("LIC 10 Failure")
+    void lic10FailureTest() {
+        Parameters parameters = new Parameters();
+        parameters.E_PTS = 1;
+        parameters.F_PTS = 1;
+        parameters.AREA1 = 0.5;
+
+        Point[] points = new Point[6];
+        // These will be tested in the first run in the loop, with an area of 1/2.
+        points[0] = new Point(0, 0);
+        points[2] = new Point(1, 0);
+        points[4] = new Point(0, 1);
+
+        // These will go in the second run, but since it's a line the area will be 0
+        points[1] = new Point(1, 1);
+        points[3] = new Point(0, 0);
+        points[5] = new Point(-3, -3);
+
+        CMV cmv = new CMV(parameters, points);
+
+        assertFalse(cmv.get(10));
     }
 
     @Test
