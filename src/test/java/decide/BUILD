@@ -10,7 +10,6 @@ java_junit5_test(
     srcs = glob([
         "CMVTest.java",
         "ParametersTest.java",
-        "MainTest.java",
     ]),
     test_package = "decide",
     deps = [
