@@ -289,6 +289,26 @@ public class CMV {
      * 0 ≤ LENGTH2
      */
     private boolean lic12() {
+        if (points.length < 3) {
+            return false;
+        }
+
+        boolean hasTwoPointsSpacedApartByLENGTH1 = false;
+        boolean hasTwoPointsCloserThanLENGTH2 = false;
+        for (int i = 0; i < points.length - parameters.K_PTS - 1; i++) {
+            double distance = points[i].distance(points[i + parameters.K_PTS + 1]);
+            if (distance > parameters.LENGTH1) {
+                hasTwoPointsSpacedApartByLENGTH1 = true;
+            }
+
+            if (distance < parameters.LENGTH2) {
+                hasTwoPointsCloserThanLENGTH2 = true;
+            }
+
+            if (hasTwoPointsSpacedApartByLENGTH1 && hasTwoPointsCloserThanLENGTH2) {
+                return true;
+            }
+        }
         return false;
     }
 
