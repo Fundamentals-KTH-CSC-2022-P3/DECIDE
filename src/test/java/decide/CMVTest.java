@@ -504,7 +504,7 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 13 Should be false if RADIUS2 is less than or equal to 2")
+    @DisplayName("LIC 13 Should be false if RADIUS2 is less than or equal to 0")
     void testLIC13IsFalseWhenRADIUS2IsLessThanOrEqualToZero() {
         Parameters params = new Parameters();
         params.RADIUS2 = -1;
