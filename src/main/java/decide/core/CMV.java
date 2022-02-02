@@ -178,9 +178,24 @@ public class CMV {
      * points. If the first and last points of these N_PTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N_PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-     * (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
+     * Pre-conditions: (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
      */
     private boolean lic6() {
+        if (parameters.N_PTS < 3 || parameters.N_PTS > points.length || parameters.DIST < 0){
+            return false;
+        }
+        for (int start = 0; start < points.length - parameters.N_PTS + 1; start++) {
+            int end = start + parameters.N_PTS - 1;
+
+            if (points[start].x == points[end].x && points[start].y == points[end].y) {
+                // when the first and last points of these N PTS are identical
+                for (int j = start + 1; j < end; j++) {
+                    if (points[j].distance(points[start]) > parameters.DIST) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
