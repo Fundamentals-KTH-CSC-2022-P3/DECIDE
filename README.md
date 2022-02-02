@@ -1,9 +1,9 @@
 # DECIDE
 
-Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480).
-We will get you up to speed with what this assignment is about and
+Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480). 
+We will get you up to speed with what this assignment is about and 
 what we have done. Furthermore, how to run and debug the program on your own
-computer and run the test suite.
+computer and run the test suite. 
 
 ## Summary
 
@@ -18,8 +18,8 @@ and other software methods and tools.
 
 ## Statement Of Contributions
 
-How the work load was separated between the group members, and who
-did what can be seen in the list below.
+How the work load was separated between the group members, and who 
+did what can be seen in the list below. 
 
 - Ludwig Kristoffersson:
   - Setup build and testing environment
@@ -100,5 +100,5 @@ and debug the software.
 #### Test Configuration
 
 Go to the menu bar and choose __Run -> Edit Configurations...__.  Then, press the +.
-Add a new test configuration of type Bazel Command. Choose the target expression to be _//src/test/java/decide:testsuite_,
+Add a new test configuration of type Bazel Command. Choose the target expression to be _//src/test/java/decide:testsuite_, 
 and choose the Bazel command to be of type _Test_. Press Apply and you should now be able to run the test suite.
