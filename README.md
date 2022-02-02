@@ -1,5 +1,7 @@
 # DECIDE
 
+DECIDE is a program that calculates from a set of input values whether to launch an anti-ballistic interceptor missile.
+
 - [DECIDE](#decide)
   - [Summary](#summary)
   - [Run a prebuilt version](#run-a-prebuilt-version)
@@ -18,13 +20,13 @@
 
 Welcome to the first assignment in the course Software Engineering Fundamentals (DD2480). We will get you up to speed with what this assignment is about and what we have done.
 
-Furthermore, how to run and debug the program on your own computer and run the test suite.
+We also explain how to run and debug the program on your own computer and run the test suite.
 
 ## Summary
 
-The goal of this assignment is to implement a Launch Interceptor Program from a given requirement specification. Several steps need to be taken to correctly implement the program.
+The purpose of this program is to implement the Launch Interceptor Program according to the requirement specification laid out by Knight and Leveson and adapted by Regehr and Monperrus.
 
-The most time-demanding steps were to implement 15 different Launch Interceptor Conditions (LICs). In addition, creating unit tests for each LIC to ensure correctness. While the assignment was about implementing a specific program, the main purpose of the assignment was to learn to work with teams, git, and other software methods and tools.
+This is achieved in part by calculating 15 different Launch Interceptor Conditions, according to the specification. For further details, refer to the specification. 
 
 ## Run a prebuilt version
 
@@ -39,13 +41,12 @@ tar xvf DECIDE.tar.gz
 To execute `DECIDE`, run
 
 ```bash
-./DECIDE
+java --jar DECIDE.jar
 ```
 
 ## Build
 
-
-To build `DECIDE` locally, you will need a local java development environment, and bazel installed. The easiest way to install is the following.
+To build `DECIDE` locally, you will need a local java development environment, and Bazel installed. The easiest way to install is the following.
 
 On **MacOS:**
 
@@ -53,33 +54,33 @@ On **MacOS:**
 brew install bazelisk
 ```
 
-On **Linux** or **Windws** use a prebuilt binary from the [bazelisk website](https://github.com/bazelbuild/bazelisk/releases).
+On **Linux** or **Windows** use a prebuilt binary from the [Bazelisk website](https://github.com/bazelbuild/bazelisk/releases).
 
-The first step is to download the git repo (assumes appropriate access)
+The first step is to clone the Git repo (assumes appropriate access):
 
 ```bash
 git clone git@github.com:Fundamentals-KTH-CSC-2022-P3/DECIDE.git
 cd DECIDE
 ```
 
-Then the following command will build `DECIDE`
+Then the following command will build `DECIDE`:
 
 ```bash
 bazel build //src/main/java/decide/program:DECIDE
 
-# it con now be executed using
+# it can now be executed using
 ./bazel-bin/src/main/java/decide/program/DECIDE
 ```
 
-You can also build an run `DECIDE` in one step
+You can also build and run `DECIDE` in one step:
 
 ```bash
 bazel run //src/main/java/decide/program:DECIDE
 ```
 
-### Run the testsuite
+### Run the test suite
 
-You can run the default testsuite with the following command
+You can run the default test suite with the following command
 
 ```bash
 bazel test --color=yes --test_output=all -- //src/test/java/decide:testsuite
@@ -104,6 +105,8 @@ We'd recommend using the OpenJDK version of Java 17, though it should still work
 
 This project is created and coded with IntelliJ IDEA Ultimate. You can follow the link here for the [license for the IDEA](https://www.jetbrains.com/community/education/#students), and then install it through any package manager of your choice. Use your license to verify your copy.
 
+The community edition of IntelliJ IDEA should work as well, but it isn't tested.
+
 #### Bazel
 
 Install Bazel through a package manager, and you're ready to go.
@@ -124,13 +127,13 @@ When this finishes, you should be able to see the Bazel logo in the upper right 
 
 #### Add the main configuration
 
-Navigate to the file at `src/main/java/decide/program/BUILD`. Clicking the green play button in the left sidebar will allow you to pres `Run Bazel ...` this will automatically add the proper configuration for you.
+Navigate to the file `src/main/java/decide/program/BUILD`. Clicking the green play button in the left sidebar will allow you to press `Run Bazel ...`. This will automatically add the proper configuration for you.
 
 ![screenshot](docs/img/BUILD-img-1.png)
 
 #### Add the test Configuration
 
-Similar to adding the main configuration, the testsuite is added by navigating to the file at `src/test/java/decide/BUILD` and clicking the green play button in the left sidebar.
+Similarly to adding the main configuration, the testsuite is added by navigating to the file `src/test/java/decide/BUILD` and clicking the green play button in the left sidebar.
 
 ![screenshot](docs/img/BUILD-img-1.png)
 
@@ -143,12 +146,15 @@ Contributions should follow the following procedure
 1. open an issue (if one doesn't already exist) that clearly describes what the feature/bug is
 2. open a feature branch from `main` with the following syntax `issue-[ISSUE NUMBER]/slug-of-the-issue-title`
 3. open a PR for merging the feature branch into main
-4. only merges after one approval and all unit tests pass
+4. only merge after at least one approval and all unit tests pass
 
 ### Statement Of Contributions
 
 How the work load was separated between the group members, and who
 did what can be seen in the list below.
+
+It should be noted that this is a rough estimate of who was the main contributor to the different tasks.
+Certain tasks were pair programmed, and others were solved after group discussions regarding design and implementation.
 
 - Ludwig Kristoffersson:
   - Setup build and testing environment
