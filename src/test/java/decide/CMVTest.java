@@ -13,20 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CMVTest {
 
-    private static Point[] createArrayWithPointsAtOrigo(int numberOfPoints) {
-        Point[] points = new Point[numberOfPoints];
-        Arrays.fill(points, new Point(0.0, 0.0));
-        return points;
-    }
-
-    private static Point[] createArrayWithPointsFarAwayFromEachOther(int numberOfPoints) {
-        Point[] points = new Point[numberOfPoints];
-        for (int i = 0; i < numberOfPoints; i++) {
-            points[i] = new Point(i * i, i * i);
-        }
-        return points;
-    }
-
     @Test
     @DisplayName("LIC 0 Success")
     void lic0SuccessTest() {
@@ -592,12 +578,12 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 13 Should be false if RADIUS2 is less than or equal to 0")
-    void testLIC13IsFalseWhenRADIUS2IsLessThanOrEqualToZero() {
+    @DisplayName("LIC 13 Should be false if the number of points is less than 5")
+    void lic13PointsFailTest() {
         Parameters params = new Parameters();
-        params.RADIUS2 = -1;
 
-        Point[] points = createArrayWithPointsAtOrigo(10);
+        Point[] points = new Point[3];
+        Arrays.fill(points, new Point(0, 0));
 
         CMV cmv = new CMV(params, points);
 
@@ -605,88 +591,59 @@ public class CMVTest {
     }
 
     @Test
-    @DisplayName("LIC 13 Should be false if NUMPOINTS is less than 5")
-    void testLIC13IsFalseWhenNUMPOINTSIsLessThanFive() {
-        Parameters params = new Parameters();
+    @DisplayName("LIC 13 Success")
+    void lic13SuccessTest() {
+        Parameters parameters = new Parameters();
+        parameters.A_PTS = 2;
+        parameters.B_PTS = 3;
+        parameters.RADIUS1 = 0.9;
+        parameters.RADIUS2 = 0.5;
 
-        Point[] points = createArrayWithPointsAtOrigo(4);
-        CMV cmv1 = new CMV(params, points);
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
 
-        assertFalse(cmv1.get(13));
+        // The circle formed from points: 0, 3, 7 requires a radius of 1 to contain them all, hence RADIUS1 cannot contain these points.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 0);
+
+        // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 0);
+
+        CMV cmv = new CMV(parameters, points);
+
+        // Must be true because RADIUS1 cannot contain the points: 0, 3, 7 and RADIUS2 can contain the points: 0, 4, 8.
+        assertTrue(cmv.get(13));
     }
 
     @Test
-    @DisplayName("LIC 13 Should be false when there exists a set of points that CAN be contained within a circle of RADIUS1")
-    void testLIC13IsFalseWhenSetOfPointsCanBeContainedInCircleWithRADIUS1() {
-        CMV cmv;
-        Parameters params = new Parameters();
-        params.A_PTS = 2;
-        params.B_PTS = 3;
+    @DisplayName("LIC 13 Fail")
+    void lic13FailTest() {
+        Parameters parameters = new Parameters();
+        parameters.A_PTS = 2;
+        parameters.B_PTS = 3;
+        parameters.RADIUS1 = 1.1;
+        parameters.RADIUS2 = 0.5;
 
-        // Make sure default case is that all the points are far away (a bunch of points at origo would poison this test)
-        Point[] points = createArrayWithPointsFarAwayFromEachOther(10);
+        Point[] points = new Point[9];
+        Arrays.fill(points, new Point(0.0, 0.0));
 
-        double huge = points[points.length - 1].x;
-        params.RADIUS2 = huge * huge; // (ensure this is huge not to poison test)
+        // The circle formed from points: 0, 3, 7 requires a radius of 1 to contain them all, hence RADIUS1 CAN contain these points.
+        points[0] = new Point(0, 0);
+        points[3] = new Point(2, 0);
+        points[7] = new Point(2, 0);
 
-        // In the following grid the points can be contained within a circle of radius 2
-        // but not a circle with radius 1. Since the distance between b and c is 2
-        // 5     c
-        // 4
-        // 3   a b
-        // 2
-        // 1 2 3 4 5 6
-        Point a = new Point(3.0, 3.0);
-        Point b = new Point(4.0, 3.0);
-        Point c = new Point(4.0, 5.0);
+        // The circle formed from points: 1, 4, 8 requires a radius of 0.5 to contain them all, hence RADIUS2 can contain these points.
+        points[0] = new Point(0, 0);
+        points[4] = new Point(1, 0);
+        points[8] = new Point(1, 0);
 
-        points[0] = a;
-        points[params.A_PTS + 1] = b;
-        points[params.A_PTS + 1 + params.B_PTS + 1] = c;
+        CMV cmv = new CMV(parameters, points);
 
-        params.RADIUS1 = 1;
-        cmv = new CMV(params, points);
-        assertTrue(cmv.get(13));
-
-        params.RADIUS1 = 2;
-        cmv = new CMV(params, points);
+        // Must be false because RADIUS1 can contain both the points 0, 3, 7, and also the points: 1, 4, 8
         assertFalse(cmv.get(13));
-    }
-
-    @Test
-    @DisplayName("LIC 13 Should be false when there exists a set of points that CANNOT be contained within a circle of RADIUS2")
-    void testLIC13IsFalseWhenSetOfPointsCannotBeContainedInCircleWithRADIUS2() {
-        CMV cmv;
-        Parameters params = new Parameters();
-        params.A_PTS = 2;
-        params.B_PTS = 3;
-        params.RADIUS1 = 1; // Ensures the test won't trigger a false positive
-
-        // Make sure default case is that all the points are far away (a bunch of points at origo would poison this test)
-        Point[] points = createArrayWithPointsFarAwayFromEachOther(10);
-
-        // In the following grid the points can be contained within a circle of radius 2
-        // but not a circle with radius 1. Since the distance between b and c is 2
-        // 5     c
-        // 4
-        // 3   a b
-        // 2
-        // 1 2 3 4 5 6
-        Point a = new Point(3.0, 3.0);
-        Point b = new Point(4.0, 3.0);
-        Point c = new Point(4.0, 5.0);
-
-        points[0] = a;
-        points[params.A_PTS + 1] = b;
-        points[params.A_PTS + 1 + params.B_PTS + 1] = c;
-
-        params.RADIUS2 = 1;
-        cmv = new CMV(params, points);
-        assertFalse(cmv.get(13));
-
-        params.RADIUS2 = 2;
-        cmv = new CMV(params, points);
-        assertTrue(cmv.get(13));
     }
 
     @Test
