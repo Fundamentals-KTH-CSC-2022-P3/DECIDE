@@ -190,14 +190,14 @@ public class CMV {
      * Pre-conditions: (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
      */
     private boolean lic6() {
-        if (points.length < 4 || parameters.N_PTS < 3){
+        if (points.length < 3 || parameters.N_PTS < 3){
             return false;
         }
 
         for (int first = 0; first < points.length - parameters.N_PTS + 1; first++) {
             int last = first + parameters.N_PTS - 1;
 
-            if (points[first].x == points[last].x && points[first].y == points[last].y) {
+            if (points[first].equals(points[last])) {
                 // when the first and last points of these N_PTS are identical
                 for (int i = first + 1; i < last; i++) {
                     if (points[i].distance(points[first]) > parameters.DIST) {
@@ -208,7 +208,7 @@ public class CMV {
                 // Find distance greater than DIST from the line joining the first and last of these N_PTS points
                 // Equation of a line: y = m*x + k or m*x - y + k = 0
                 double a, b, c;
-                // m = dt / dx
+                // m = dy / dx
                 double dx = points[last].x - points[first].x;
                 double dy = points[last].y - points[first].y;
                 double m = dy / dx;
