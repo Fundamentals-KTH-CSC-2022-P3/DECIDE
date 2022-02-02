@@ -286,15 +286,12 @@ public class CMV {
             Point p2 = points[i + distanceToMiddlePoint];
             Point p3 = points[i + distanceToFinalPoint];
 
-            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
-                continue;
-
             double area = Triangle.area(p1, p2, p3);
             if (area > parameters.AREA1) {
                 return true;
             }
         }
-            return false;
+        return false;
     }
 
     /**
