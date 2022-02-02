@@ -311,7 +311,7 @@ public class CMVTest {
     void lic6FailTest() {
         Parameters params = new Parameters();
         params.DIST = 10;
-        params.N_PTS = 2;
+        params.N_PTS = 3;
         Point[] points = new Point[3];
         points[0] = new Point(0, 3);
         points[1] = new Point(1, 5);

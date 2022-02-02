@@ -190,6 +190,9 @@ public class CMV {
      * Pre-conditions: (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
      */
     private boolean lic6() {
+        if (points.length < 4 || parameters.N_PTS < 3){
+            return false;
+        }
 
         for (int first = 0; first < points.length - parameters.N_PTS + 1; first++) {
             int last = first + parameters.N_PTS - 1;
