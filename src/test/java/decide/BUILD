@@ -9,6 +9,7 @@ java_junit5_test(
     name = "testsuite",
     srcs = glob([
         "CMVTest.java",
+        "ParametersTest.java",
     ]),
     test_package = "decide",
     deps = [
