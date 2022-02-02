@@ -276,7 +276,25 @@ public class CMV {
      * E_PTS+F_PTS ≤ NUMPOINTS−3
      */
     private boolean lic10() {
-        return false;
+        if(points.length < 5) {
+            return false;
+        }
+        int distanceToMiddlePoint = parameters.E_PTS + 1;
+        int distanceToFinalPoint = distanceToMiddlePoint + parameters.F_PTS + 1;
+        for(int i = 0; i < points.length - distanceToFinalPoint; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + distanceToMiddlePoint];
+            Point p3 = points[i + distanceToFinalPoint];
+
+            if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3))
+                continue;
+
+            double area = Triangle.area(p1, p2, p3);
+            if (area > parameters.AREA1) {
+                return true;
+            }
+        }
+            return false;
     }
 
     /**
